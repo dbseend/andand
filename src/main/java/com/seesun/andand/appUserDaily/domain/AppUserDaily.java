@@ -24,19 +24,18 @@ public class AppUserDaily extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "daily_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private Daily daily;
 
     @Builder
-    public AppUserDaily(Long id, String picture, AppUser appUser, Daily daily) {
-        this.id = id;
-        this.picture = picture;
+    public AppUserDaily(AppUser appUser, Daily daily, String picture) {
         this.appUser = appUser;
         this.daily = daily;
+        this.picture = picture;
     }
 }

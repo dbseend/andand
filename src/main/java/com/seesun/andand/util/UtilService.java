@@ -21,7 +21,7 @@ public class UtilService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String saveFile(MultipartFile multipartFile, String directoryPath) throws IOException {
+    public String uploadImage(MultipartFile multipartFile, String directoryPath) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         log.info("originalFilename: " + originalFilename);
 

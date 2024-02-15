@@ -36,15 +36,15 @@ public class AppUser {
     private Long point;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+//    @JsonBackReference
     private List<AppUserMate> appUserMateList;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private List<AppUserDaily> dailyList;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
-    @JsonBackReference
+//    @JsonBackReference
     private List<AppUserGarden> gardenList;
 
     @Builder
@@ -61,7 +61,7 @@ public class AppUser {
         this.phoneNumber = phoneNumber;
     }
 
-//    public void updateMate(Mate mate) {
-//        this.mate = mate;
-//    }
+    public void addPoint() {
+        this.point += 50L;
+    }
 }

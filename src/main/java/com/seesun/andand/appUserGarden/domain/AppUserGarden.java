@@ -25,12 +25,12 @@ public class AppUserGarden {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "garden_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private Garden garden;
 
     @Builder

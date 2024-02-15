@@ -22,12 +22,12 @@ public class Garden {
     private Long id;
 
     @OneToMany(mappedBy = "garden", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+//    @JsonBackReference
     private List<AppUserGarden> appUserGardenList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mate_id")
-    @JsonManagedReference
+//    @JsonManagedReference
     private Mate mate;
 
     @Builder
