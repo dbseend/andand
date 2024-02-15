@@ -8,6 +8,7 @@ import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
 import com.seesun.andand.daily.dto.response.DailyResponse;
+import com.seesun.andand.daily.dto.response.InfoForDaily;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.util.UtilService;
@@ -35,6 +36,7 @@ public class DailyService {
     private final AppUserDailyRepository appUserDailyRepository;
     private final UtilService utilService;
 
+    // 데일리 자동 생성 및 연속 날짜 갱신 메소드
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     public void everyDay() {
 
@@ -65,14 +67,10 @@ public class DailyService {
         AppUser appUser = appUserRepository.findById(appUserId).
                 orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        Mate mate = mateRepository.findById(mateId).
-                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
-
-        LocalDate targetCreateDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
-        LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
-        LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
-        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
+        LocalDate today = LocalDate.now();
+        InfoForDaily infoForDaily = utilService.getInfoForDaily(mateId, today);
+        Daily daily = infoForDaily.getDaily();
+        Mate mate = infoForDaily.getMate();
 
         String picture = utilService.uploadImage(file, DAILY);
 
@@ -92,41 +90,23 @@ public class DailyService {
         }
     }
 
-    // 일일 조회 메소드
+    // 일일 데일리 게시물 조회 메소드
     public DailyResponse getTodayDaily(Long mateId) {
 
-        Mate mate = mateRepository.findById(mateId).
-                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+        LocalDate today = LocalDate.now();
 
-        LocalDate targetDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
-        LocalDateTime startDateTime = targetDate.atStartOfDay();
-        LocalDateTime endDateTime = targetDate.atTime(23, 59, 59);
-        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
-
-        List<AppUserDailyResponse> appUserDailyResponseList = daily.getAppUserDailyList().stream()
-                .map(appUserDaily -> new AppUserDailyResponse(appUserDaily.getId(), appUserDaily.getPicture()))
-                .toList();
-
-        return new DailyResponse(
-                daily.getId()
-                , daily.getMate()
-                , daily.getTag()
-                , daily.getIsBothUploaded()
-                , appUserDailyResponseList
-        );
+        return getDailyResponse(mateId, today);
     }
 
     // 특정 날짜 데일리 조회 메소드
     public DailyResponse getSpecificDaily(Long mateId, LocalDate targetDate) {
+        return getDailyResponse(mateId, targetDate);
+    }
 
-        Mate mate = mateRepository.findById(mateId).
-                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
-
-        LocalDateTime startDateTime = targetDate.atStartOfDay();
-        LocalDateTime endDateTime = targetDate.atTime(23, 59, 59);
-        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
+    // 데일리 게시물 조회 메소드
+    private DailyResponse getDailyResponse(Long mateId, LocalDate today) {
+        InfoForDaily infoForDaily = utilService.getInfoForDaily(mateId, today);
+        Daily daily = infoForDaily.getDaily();
 
         List<AppUserDailyResponse> appUserDailyResponseList = daily.getAppUserDailyList().stream()
                 .map(appUserDaily -> new AppUserDailyResponse(appUserDaily.getId(), appUserDaily.getPicture()))

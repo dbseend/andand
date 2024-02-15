@@ -63,8 +63,10 @@ public class UtilService {
 
         boolean isBothUploaded = false;
 
-        InfoForDaily infoForDaily = getInfoForDaily(mateId);
+        LocalDate today = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
+        InfoForDaily infoForDaily = getInfoForDaily(mateId, today);
         Daily daily = infoForDaily.getDaily();
+
         if (daily.getAppUserDailyList().size() == 2) {
             isBothUploaded = true;
         }
@@ -72,12 +74,12 @@ public class UtilService {
         return isBothUploaded;
     }
 
-    public InfoForDaily getInfoForDaily(Long mateId) {
+    public InfoForDaily getInfoForDaily(Long mateId, LocalDate targetCreateDate) {
 
         Mate mate = mateRepository.findById(mateId).
                 orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
 
-        LocalDate targetCreateDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
+        targetCreateDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
         LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
         LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
         Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
