@@ -1,9 +1,8 @@
-package com.seesun.andand.AppUserDaily.domain;
+package com.seesun.andand.appUserGarden.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUser.domain.AppUser;
-import com.seesun.andand.configuration.BaseEntity;
-import com.seesun.andand.daily.domain.Daily;
+import com.seesun.andand.garden.domain.Garden;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "app_user_daily")
-public class AppUserDaily extends BaseEntity {
+@Table(name = "app_user_garden")
+public class AppUserGarden {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,21 +21,24 @@ public class AppUserDaily extends BaseEntity {
     @Column(nullable = false)
     private String picture;
 
+    private String content;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
     @JsonManagedReference
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "daily_id")
+    @JoinColumn(name = "garden_id")
     @JsonManagedReference
-    private Daily daily;
+    private Garden garden;
 
     @Builder
-    public AppUserDaily(Long id, String picture, AppUser appUser, Daily daily) {
+    public AppUserGarden(Long id, String picture, String content, AppUser appUser, Garden garden) {
         this.id = id;
         this.picture = picture;
+        this.content = content;
         this.appUser = appUser;
-        this.daily = daily;
+        this.garden = garden;
     }
 }

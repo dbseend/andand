@@ -2,7 +2,7 @@ package com.seesun.andand.garden.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.seesun.andand.AppUserGarden.domain.AppUserGarden;
+import com.seesun.andand.appUserGarden.domain.AppUserGarden;
 import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;

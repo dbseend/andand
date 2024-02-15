@@ -2,7 +2,7 @@ package com.seesun.andand.daily.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.seesun.andand.AppUserDaily.domain.AppUserDaily;
+import com.seesun.andand.appUserDaily.domain.AppUserDaily;
 import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;

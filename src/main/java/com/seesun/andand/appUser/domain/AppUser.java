@@ -2,8 +2,8 @@ package com.seesun.andand.appUser.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.seesun.andand.AppUserDaily.domain.AppUserDaily;
-import com.seesun.andand.AppUserGarden.domain.AppUserGarden;
+import com.seesun.andand.appUserDaily.domain.AppUserDaily;
+import com.seesun.andand.appUserGarden.domain.AppUserGarden;
 import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -58,5 +58,10 @@ public class AppUser {
         this.userCode = userCode;
         this.point = point;
         this.mate = mate;
+    }
+
+    public void update(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
     }
 }

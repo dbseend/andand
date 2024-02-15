@@ -1,4 +1,4 @@
-package com.seesun.andand.AppUserDaily.domain;
+package com.seesun.andand.appUserDaily.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
