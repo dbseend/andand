@@ -90,6 +90,19 @@ public class DailyService {
         }
     }
 
+    public void reUploadDaily(Long appUserId, MultipartFile file) throws IOException {
+
+        LocalDate today = LocalDate.now();
+        LocalDateTime startDateTime = today.atStartOfDay();
+        LocalDateTime endDateTime = today.atTime(23, 59, 59);
+        AppUserDaily appUserDaily = appUserDailyRepository.findByAppUserIdAndCreateDateTimeBetween(appUserId, startDateTime, endDateTime)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 데일리가 없습니다."));
+
+        String picture = utilService.uploadImage(file, DAILY);
+        appUserDaily.updatePicture(picture);
+        appUserDailyRepository.save(appUserDaily);
+    }
+
     // 일일 데일리 게시물 조회 메소드
     public DailyResponse getTodayDaily(Long mateId) {
 

@@ -29,6 +29,8 @@ public class Mate extends BaseEntity {
 
     private Integer gardenLevel;
 
+    private Integer gardenNum;
+
     @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<AppUserMate> appUserMateList;

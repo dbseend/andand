@@ -38,4 +38,8 @@ public class AppUserDaily extends BaseEntity {
         this.daily = daily;
         this.picture = picture;
     }
+
+    public void updatePicture(String picture) {
+        this.picture = picture;
+    }
 }
