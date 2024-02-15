@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUserDaily.domain.AppUserDaily;
 import com.seesun.andand.configuration.BaseEntity;
-import com.seesun.andand.group.domain.Mate;
+import com.seesun.andand.mate.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public class Daily extends BaseEntity {
     @Column(nullable = false)
     private String picture;
 
-    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<AppUserDaily> appUserDailyList;
 

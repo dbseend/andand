@@ -3,7 +3,7 @@ package com.seesun.andand.garden.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUserGarden.domain.AppUserGarden;
-import com.seesun.andand.group.domain.Mate;
+import com.seesun.andand.mate.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class Garden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "garden", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "garden", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<AppUserGarden> appUserGardenList;
 

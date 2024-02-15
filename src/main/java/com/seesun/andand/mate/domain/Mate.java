@@ -1,7 +1,7 @@
-package com.seesun.andand.group.domain;
+package com.seesun.andand.mate.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.garden.domain.Garden;
@@ -29,21 +29,20 @@ public class Mate extends BaseEntity {
 
     private Integer gardenLevel;
 
-    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
-    private List<AppUser> appUserList;
+    private List<AppUserMate> appUserMateList;
 
-    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Daily> dailyList;
 
-    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<Garden> gardenList;
 
     @Builder
-    public Mate(Long id, String code, Integer dailyContinuousDays, Integer gardenLevel) {
-        this.id = id;
+    public Mate(String code, Integer dailyContinuousDays, Integer gardenLevel) {
         this.code = code;
         this.dailyContinuousDays = dailyContinuousDays;
         this.gardenLevel = gardenLevel;

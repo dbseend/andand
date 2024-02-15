@@ -5,6 +5,10 @@ import com.seesun.andand.appUser.domain.AppUserRepository;
 import com.seesun.andand.appUser.dto.request.AppUserUpdateRequest;
 import com.seesun.andand.appUser.dto.request.SignUpRequest;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
+import com.seesun.andand.appUserMate.domain.AppUserMate;
+import com.seesun.andand.appUserMate.domain.AppUserMateRepository;
+import com.seesun.andand.mate.domain.Mate;
+import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,21 +22,29 @@ import java.security.SecureRandom;
 public class AppUserService {
 
     private final AppUserRepository appUserRepository;
+    private final MateRepository mateRepository;
+    private final AppUserMateRepository appUserMateRepository;
     private final UtilService utilService;
 
     // 회원가입 메소드
     public void signUp(SignUpRequest signUpRequest) {
 
         String userCode = utilService.generateRandomCode(6);
+        Long initialPoint = 0L;
 
-        AppUser appUser = AppUser.builder()
-                .name(signUpRequest.getName())
-                .age(signUpRequest.getAge())
-                .phoneNumber(signUpRequest.getPhoneNumber())
-                .userCode(userCode)
-                .build();
+        Mate newNate = new Mate(userCode, 0, 0);
+        mateRepository.save(newNate);
 
-        appUserRepository.save(appUser);
+        AppUser newAppUser = new AppUser(
+                signUpRequest.getName(),
+                signUpRequest.getAge(),
+                signUpRequest.getPhoneNumber(),
+                userCode,
+                initialPoint);
+        appUserRepository.save(newAppUser);
+
+        AppUserMate newAppUserMate = new AppUserMate(newAppUser, newNate);
+        appUserMateRepository.save(newAppUserMate);
     }
 
     // 회원정보 조회 메소드
@@ -55,7 +67,7 @@ public class AppUserService {
         AppUser appUser = appUserRepository.findById(appUserId).
                 orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        appUser.update(appUserUpdateRequest.getName(), appUserUpdateRequest.getPhoneNumber());
+        appUser.updateInfo(appUserUpdateRequest.getName(), appUserUpdateRequest.getPhoneNumber());
         appUserRepository.save(appUser);
     }
 }
