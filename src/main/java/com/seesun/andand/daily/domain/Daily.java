@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.AppUserDaily.domain.AppUserDaily;
 import com.seesun.andand.configuration.BaseEntity;
-import com.seesun.andand.group.domain.Group;
+import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +33,15 @@ public class Daily extends BaseEntity {
     private List<AppUserDaily> appUserDailyList;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "mate_id")
     @JsonManagedReference
-    private Group group;
+    private Mate mate;
+
+    @Builder
+    public Daily(Long id, String tag, String picture, Mate mate) {
+        this.id = id;
+        this.tag = tag;
+        this.picture = picture;
+        this.mate = mate;
+    }
 }

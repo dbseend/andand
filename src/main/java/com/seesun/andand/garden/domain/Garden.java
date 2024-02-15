@@ -3,8 +3,9 @@ package com.seesun.andand.garden.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.AppUserGarden.domain.AppUserGarden;
-import com.seesun.andand.group.domain.Group;
+import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +26,13 @@ public class Garden {
     private List<AppUserGarden> appUserGardenList;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "mate_id")
     @JsonManagedReference
-    private Group group;
+    private Mate mate;
+
+    @Builder
+    public Garden(Long id, Mate mate) {
+        this.id = id;
+        this.mate = mate;
+    }
 }

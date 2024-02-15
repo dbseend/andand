@@ -15,8 +15,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "group")
-public class Group extends BaseEntity {
+@Table(name = "mate")
+public class Mate extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,20 +29,20 @@ public class Group extends BaseEntity {
 
     private Integer gardenLevel;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<AppUser> appUserList;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Daily> dailyList;
 
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mate", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Garden> gardenList;
 
     @Builder
-    public Group(Long id, String code, Integer dailyContinuousDays, Integer gardenLevel) {
+    public Mate(Long id, String code, Integer dailyContinuousDays, Integer gardenLevel) {
         this.id = id;
         this.code = code;
         this.dailyContinuousDays = dailyContinuousDays;

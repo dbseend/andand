@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.AppUserDaily.domain.AppUserDaily;
 import com.seesun.andand.AppUserGarden.domain.AppUserGarden;
-import com.seesun.andand.daily.domain.Daily;
-import com.seesun.andand.garden.domain.Garden;
-import com.seesun.andand.group.domain.Group;
+import com.seesun.andand.group.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,9 +37,9 @@ public class AppUser {
     private Long point;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
+    @JoinColumn(name = "mate_id")
     @JsonManagedReference
-    private Group group;
+    private Mate mate;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -52,13 +50,13 @@ public class AppUser {
     private List<AppUserGarden> gardenList;
 
     @Builder
-    public AppUser(Long id, String name, Integer age, String phoneNumber, String userCode, Long point, Group group) {
+    public AppUser(Long id, String name, Integer age, String phoneNumber, String userCode, Long point, Mate mate) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.userCode = userCode;
         this.point = point;
-        this.group = group;
+        this.mate = mate;
     }
 }

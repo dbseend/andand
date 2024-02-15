@@ -1,7 +1,6 @@
-springfox:
-  documentation:
-    swagger-ui:
-      enabled: 'true'
 springdoc:
   swagger-ui:
     path: /
+spring:
+  profiles:
+    include: db, s3

@@ -2,7 +2,9 @@ package com.seesun.andand.AppUserGarden.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.garden.domain.Garden;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +27,18 @@ public class AppUserGarden {
     @JoinColumn(name = "app_user_id")
     @JsonManagedReference
     private AppUser appUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "garden_id")
+    @JsonManagedReference
+    private Garden garden;
+
+    @Builder
+    public AppUserGarden(Long id, String picture, String content, AppUser appUser, Garden garden) {
+        this.id = id;
+        this.picture = picture;
+        this.content = content;
+        this.appUser = appUser;
+        this.garden = garden;
+    }
 }

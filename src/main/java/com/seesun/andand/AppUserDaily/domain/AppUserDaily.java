@@ -3,6 +3,7 @@ package com.seesun.andand.AppUserDaily.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.configuration.BaseEntity;
+import com.seesun.andand.daily.domain.Daily;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,4 +26,17 @@ public class AppUserDaily extends BaseEntity {
     @JoinColumn(name = "app_user_id")
     @JsonManagedReference
     private AppUser appUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "daily_id")
+    @JsonManagedReference
+    private Daily daily;
+
+    @Builder
+    public AppUserDaily(Long id, String picture, AppUser appUser, Daily daily) {
+        this.id = id;
+        this.picture = picture;
+        this.appUser = appUser;
+        this.daily = daily;
+    }
 }
