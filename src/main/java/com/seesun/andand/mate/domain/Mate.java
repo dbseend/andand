@@ -47,4 +47,12 @@ public class Mate extends BaseEntity {
         this.dailyContinuousDays = dailyContinuousDays;
         this.gardenLevel = gardenLevel;
     }
+
+    public void addDailyContinuousDays() {
+        this.dailyContinuousDays++;
+    }
+
+    public void initDailyContinuousDays() {
+        this.dailyContinuousDays = 0;
+    }
 }

@@ -2,6 +2,12 @@ package com.seesun.andand.util;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.seesun.andand.daily.domain.Daily;
+import com.seesun.andand.daily.domain.DailyRepository;
+import com.seesun.andand.daily.dto.response.InfoForDaily;
+import com.seesun.andand.daily.service.DailyService;
+import com.seesun.andand.mate.domain.Mate;
+import com.seesun.andand.mate.domain.MateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +25,8 @@ import java.security.SecureRandom;
 public class UtilService {
 
     private final AmazonS3 amazonS3;
+    private final MateRepository mateRepository;
+    private final DailyRepository dailyRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -47,5 +57,32 @@ public class UtilService {
             code.append(CHARACTERS.charAt(randomIndex));
         }
         return code.toString();
+    }
+
+    public boolean isBothUploaded(Long mateId) {
+
+        boolean isBothUploaded = false;
+
+        InfoForDaily infoForDaily = getInfoForDaily(mateId);
+        Daily daily = infoForDaily.getDaily();
+        if (daily.getAppUserDailyList().size() == 2) {
+            isBothUploaded = true;
+        }
+
+        return isBothUploaded;
+    }
+
+    public InfoForDaily getInfoForDaily(Long mateId) {
+
+        Mate mate = mateRepository.findById(mateId).
+                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+
+        LocalDate targetCreateDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
+        LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
+        LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
+        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
+                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
+
+        return new InfoForDaily(mate, daily, startDateTime, endDateTime);
     }
 }

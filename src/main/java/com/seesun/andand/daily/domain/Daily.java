@@ -18,13 +18,12 @@ import java.util.List;
 @Table(name = "daily")
 public class Daily extends BaseEntity {
 
+    Boolean isBothUploaded;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String tag;
-
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<AppUserDaily> appUserDailyList;
@@ -35,8 +34,13 @@ public class Daily extends BaseEntity {
     private Mate mate;
 
     @Builder
-    public Daily(String tag, Mate mate) {
+    public Daily(String tag, Mate mate, Boolean isBothUploaded) {
         this.tag = tag;
         this.mate = mate;
+        this.isBothUploaded = false;
+    }
+
+    public void updateIsBothUploaded() {
+        this.isBothUploaded = true;
     }
 }
