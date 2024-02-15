@@ -20,11 +20,11 @@ public class AppUserMate extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonManagedReference
+    @JsonManagedReference
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonManagedReference
+    @JsonManagedReference
     private Mate mate;
 
     @Builder

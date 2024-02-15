@@ -24,12 +24,12 @@ public class AppUserDaily extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id")
-//    @JsonManagedReference
+    @JsonManagedReference
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "daily_id")
-//    @JsonManagedReference
+    @JsonManagedReference
     private Daily daily;
 
     @Builder

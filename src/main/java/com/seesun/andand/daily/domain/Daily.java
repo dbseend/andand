@@ -25,16 +25,13 @@ public class Daily extends BaseEntity {
     @Column(nullable = false)
     private String tag;
 
-//    @Column(nullable = false)
-//    private String picture;
-
     @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonBackReference
+    @JsonBackReference
     private List<AppUserDaily> appUserDailyList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mate_id")
-//    @JsonManagedReference
+    @JsonManagedReference
     private Mate mate;
 
     @Builder

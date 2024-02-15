@@ -10,6 +10,7 @@ import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.util.UtilService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DailyService {
 
     private static final String DAILY = "daily";
@@ -30,8 +32,10 @@ public class DailyService {
     private final AppUserDailyRepository appUserDailyRepository;
     private final UtilService utilService;
 
-    @Scheduled(cron = "0 10 3 * * ?") // 매일 자정에 실행
+    @Scheduled(cron = "0 49 3 * * ?") // 매일 자정에 실행
     public void everyDay() {
+
+        log.info("자동 실행되었습니다.");
 
         List<Mate> mateList = mateRepository.findAll();
         List<Daily> dailyList = mateList.stream()
