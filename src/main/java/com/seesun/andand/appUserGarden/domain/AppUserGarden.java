@@ -34,8 +34,7 @@ public class AppUserGarden {
     private Garden garden;
 
     @Builder
-    public AppUserGarden(Long id, String picture, String content, AppUser appUser, Garden garden) {
-        this.id = id;
+    public AppUserGarden(String picture, String content, AppUser appUser, Garden garden) {
         this.picture = picture;
         this.content = content;
         this.appUser = appUser;

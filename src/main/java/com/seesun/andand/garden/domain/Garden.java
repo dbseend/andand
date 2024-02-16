@@ -3,6 +3,7 @@ package com.seesun.andand.garden.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUserGarden.domain.AppUserGarden;
+import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.mate.domain.Mate;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "garden")
-public class Garden {
+public class Garden extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

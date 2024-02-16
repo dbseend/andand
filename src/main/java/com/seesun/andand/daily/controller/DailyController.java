@@ -1,6 +1,5 @@
 package com.seesun.andand.daily.controller;
 
-import com.seesun.andand.daily.dto.request.DailyUploadRequest;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.service.DailyService;
 import lombok.RequiredArgsConstructor;

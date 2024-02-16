@@ -4,8 +4,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
-import com.seesun.andand.daily.dto.response.InfoForDaily;
-import com.seesun.andand.daily.service.DailyService;
+import com.seesun.andand.daily.dto.response.DailyInfo;
+import com.seesun.andand.garden.domain.Garden;
+import com.seesun.andand.garden.domain.GardenRepository;
+import com.seesun.andand.garden.dto.response.GardenInfo;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class UtilService {
     private final AmazonS3 amazonS3;
     private final MateRepository mateRepository;
     private final DailyRepository dailyRepository;
+    private final GardenRepository gardenRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -64,8 +67,8 @@ public class UtilService {
         boolean isBothUploaded = false;
 
         LocalDate today = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
-        InfoForDaily infoForDaily = getInfoForDaily(mateId, today);
-        Daily daily = infoForDaily.getDaily();
+        DailyInfo dailyInfo = getInfoForDaily(mateId, today);
+        Daily daily = dailyInfo.getDaily();
 
         if (daily.getAppUserDailyList().size() == 2) {
             isBothUploaded = true;
@@ -74,17 +77,29 @@ public class UtilService {
         return isBothUploaded;
     }
 
-    public InfoForDaily getInfoForDaily(Long mateId, LocalDate targetCreateDate) {
+    public DailyInfo getInfoForDaily(Long mateId, LocalDate targetCreateDate) {
 
         Mate mate = mateRepository.findById(mateId).
                 orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
 
-        targetCreateDate = LocalDate.now(); // 오늘의 날짜와 시간을 얻습니다.
         LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
         LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
         Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
                 orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
 
-        return new InfoForDaily(mate, daily, startDateTime, endDateTime);
+        return new DailyInfo(mate, daily, startDateTime, endDateTime);
+    }
+
+    public GardenInfo getInfoForGarden(Long mateId, LocalDate targetCreateDate) {
+
+        Mate mate = mateRepository.findById(mateId).
+                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+
+        LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
+        LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
+        Garden garden = gardenRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
+                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
+
+        return new GardenInfo(mate, garden, startDateTime, endDateTime);
     }
 }

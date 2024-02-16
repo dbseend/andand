@@ -8,7 +8,7 @@ import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
 import com.seesun.andand.daily.dto.response.DailyResponse;
-import com.seesun.andand.daily.dto.response.InfoForDaily;
+import com.seesun.andand.daily.dto.response.DailyInfo;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.util.UtilService;
@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,9 +67,9 @@ public class DailyService {
                 orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         LocalDate today = LocalDate.now();
-        InfoForDaily infoForDaily = utilService.getInfoForDaily(mateId, today);
-        Daily daily = infoForDaily.getDaily();
-        Mate mate = infoForDaily.getMate();
+        DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);
+        Daily daily = dailyInfo.getDaily();
+        Mate mate = dailyInfo.getMate();
 
         String picture = utilService.uploadImage(file, DAILY);
 
@@ -118,8 +117,8 @@ public class DailyService {
 
     // 데일리 게시물 조회 메소드
     private DailyResponse getDailyResponse(Long mateId, LocalDate today) {
-        InfoForDaily infoForDaily = utilService.getInfoForDaily(mateId, today);
-        Daily daily = infoForDaily.getDaily();
+        DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);
+        Daily daily = dailyInfo.getDaily();
 
         List<AppUserDailyResponse> appUserDailyResponseList = daily.getAppUserDailyList().stream()
                 .map(appUserDaily -> new AppUserDailyResponse(appUserDaily.getId(), appUserDaily.getPicture()))

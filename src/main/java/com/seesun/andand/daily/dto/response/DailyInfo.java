@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InfoForDaily {
+public class DailyInfo {
 
     private Mate mate;
 

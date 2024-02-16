@@ -57,4 +57,8 @@ public class Mate extends BaseEntity {
     public void initDailyContinuousDays() {
         this.dailyContinuousDays = 0;
     }
+
+    public void addGardenNum() {
+        this.gardenNum++;
+    }
 }
