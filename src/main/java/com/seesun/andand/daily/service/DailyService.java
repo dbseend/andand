@@ -45,13 +45,13 @@ public class DailyService {
         List<Mate> mateList = mateRepository.findAll();
 
         // 어제 일일 등록이 안된 메이트들의 연속일을 초기화합니다. -> 수정필요
-        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
-        for (Daily daily : yesterdayDailyList) {
-            if (!daily.getIsBothUploaded()) {
-                daily.getMate().initDailyContinuousDays();
-                mateRepository.save(daily.getMate());
-            }
-        }
+//        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
+//        for (Daily daily : yesterdayDailyList) {
+//            if (!daily.getIsBothUploaded()) {
+//                daily.getMate().initDailyContinuousDays();
+//                mateRepository.save(daily.getMate());
+//            }
+//        }
 
         List<Daily> todayDailyList = mateList.stream()
                 .map(mate -> new Daily("웃음", mate, false))
@@ -94,8 +94,9 @@ public class DailyService {
         LocalDate today = LocalDate.now();
         LocalDateTime startDateTime = today.atStartOfDay();
         LocalDateTime endDateTime = today.atTime(23, 59, 59);
-        AppUserDaily appUserDaily = appUserDailyRepository.findByAppUserIdAndCreateDateTimeBetween(appUserId, startDateTime, endDateTime)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 데일리가 없습니다."));
+        AppUserDaily appUserDaily = new AppUserDaily();
+//        AppUserDaily appUserDaily = appUserDailyRepository.findByAppUserIdAndCreateDateTimeBetween(appUserId, startDateTime, endDateTime)
+//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 데일리가 없습니다."));
 
         String picture = utilService.uploadImage(file, DAILY);
         appUserDaily.updatePicture(picture);

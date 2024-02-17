@@ -84,8 +84,9 @@ public class UtilService {
 
         LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
         LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
-        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
+        Daily daily = new Daily("웃음", mate, false);
+//        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
+//                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
 
         return new DailyInfo(mate, daily, startDateTime, endDateTime);
     }
