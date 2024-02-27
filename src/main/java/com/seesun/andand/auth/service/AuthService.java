@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -27,8 +29,7 @@ public class AuthService {
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest) throws Exception {
 
-        log.info("signUpRequest: {}", signUpRequest.getUserId());
-        authSubService.isExistAppUser(signUpRequest.getUserId());
+        authSubService.checkIdAvailability(signUpRequest.getUserId());
         String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY);
         String userCode = utilService.generateRandomCode();
         AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage));
@@ -36,26 +37,24 @@ public class AuthService {
         return new SignUpResponse(appUser);
     }
 
-    // 로그인 메소드
+    // 로그인 메소드(아이디 비밀번호 확인, 토큰 생성)
     @Transactional
     public SignInResponse signIn(SignInRequest signInRequest) {
 
-        AppUser appUser = appUserRepository.findByUserId(signInRequest.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다.")); // 존재하지 않는 아이디인 경우
-
+        AppUser appUser = authSubService.findUserByUserId(signInRequest.getUserId());
         if (!appUser.getPassword().equals(signInRequest.getPassword())) { // 비밀번호가 일치하지 않는 경우
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        int exprTime = 1000 * 3600 * 3;
         String token = tokenProvider.create(appUser.getUserId());
         appUser.updateToken(token);
+
         appUserRepository.save(appUser);
 
         return new SignInResponse(appUser.getUserId(), token);
     }
 
-    // 로그아웃 메소드
+    // 로그아웃 메소드(토큰 삭제)
     @Transactional
     public void signOut(String userId) {
         AppUser appUser = appUserRepository.findByUserId(userId)

@@ -70,7 +70,6 @@ public class AppUser extends BaseEntity {
         this.age = appUser.getAge();
         this.phoneNumber = appUser.getPhoneNumber();
         this.profileImage = appUser.getProfileImage();
-
     }
 
     public void addPoint() {
