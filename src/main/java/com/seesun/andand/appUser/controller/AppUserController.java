@@ -15,15 +15,15 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     // 회원정보 조회 API
-    @GetMapping("/{appUserId}")
-    public ResponseEntity<AppUserResponse> getAppUser(@PathVariable Long appUserId) {
+    @GetMapping("")
+    public ResponseEntity<AppUserResponse> getAppUser(@RequestParam String userId) {
 
-        return ResponseEntity.ok(appUserService.getAppUser(appUserId));
+        return ResponseEntity.ok(appUserService.getAppUser(userId));
     }
 
     // 회원정보 수정 API
-    @PatchMapping("/{appUserId}")
-    public ResponseEntity<AppUserResponse> updateAppUser(@RequestBody AppUserUpdateRequest appUserUpdateRequest) {
+    @PatchMapping("")
+    public ResponseEntity<AppUserResponse> updateAppUser(@ModelAttribute AppUserUpdateRequest appUserUpdateRequest) {
 
         return ResponseEntity.ok(appUserService.updateAppUser(appUserUpdateRequest));
     }
