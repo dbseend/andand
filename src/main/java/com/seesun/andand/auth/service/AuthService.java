@@ -9,28 +9,29 @@ import com.seesun.andand.auth.dto.response.SignInResponse;
 import com.seesun.andand.util.UtilService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
+    private static final String PROFILE_DIRECTORY = "profile";
     private final AppUserRepository appUserRepository;
     private final UtilService utilService;
     private final TokenProvider tokenProvider;
+    private final AuthSubService authSubService;
 
-    // 회원가입 메소드
+    // 회원가입 메소드(아이디 중복 체크 + 프로필 사진 업로드 + 유저 코드 생성 + 객체 생성)
     @Transactional
-    public SignUpResponse signUp(SignUpRequest signUpRequest) {
+    public SignUpResponse signUp(SignUpRequest signUpRequest) throws Exception {
 
-        boolean isExist = appUserRepository.existsByUserId(signUpRequest.getUserId());
-        if (isExist) { // 이미 존재하는 아이디인 경우
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
-        }
-
+        log.info("signUpRequest: {}", signUpRequest.getUserId());
+        authSubService.isExistAppUser(signUpRequest.getUserId());
+        String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY);
         String userCode = utilService.generateRandomCode();
-
-        AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode));
+        AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage));
 
         return new SignUpResponse(appUser);
     }

@@ -18,7 +18,7 @@ public class SignUpResponse {
 
     private String phoneNumber;
 
-    private String picture;
+    private String profileImage;
 
     private String userCode;
 
@@ -30,7 +30,7 @@ public class SignUpResponse {
         this.name = appUser.getName();
         this.age = appUser.getAge();
         this.phoneNumber = appUser.getPhoneNumber();
-        this.picture = appUser.getPicture();
+        this.profileImage = appUser.getProfileImage();
         this.userCode = appUser.getUserCode();
         this.point = appUser.getPoint();
     }

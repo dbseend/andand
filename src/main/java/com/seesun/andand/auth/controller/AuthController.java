@@ -18,7 +18,7 @@ public class AuthController {
 
     // 회원가입 API
     @PostMapping("/signUp")
-    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<SignUpResponse> signUp(@ModelAttribute SignUpRequest signUpRequest) throws Exception {
         return ResponseEntity.ok(authService.signUp(signUpRequest));
     }
 
