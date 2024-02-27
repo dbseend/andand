@@ -22,19 +22,24 @@ public class AppUser extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    private String userId;
+
+    private String password;
+
+    private String picture;
+
     private String name;
 
-    @Column(nullable = false)
     private Integer age;
 
-    @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String userCode;
 
     private Long point;
+
+    private String token;
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonBackReference
@@ -49,11 +54,14 @@ public class AppUser extends BaseEntity {
     private List<Garden> gardenList;
 
     @Builder
-    public AppUser(String name, Integer age, String phoneNumber, String userCode, Long point) {
+    public AppUser(String userId, String password, String name, Integer age, String phoneNumber, String userCode, String picture, Long point) {
+        this.userId = userId;
+        this.password = password;
         this.name = name;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.userCode = userCode;
+        this.picture = picture;
         this.point = point;
     }
 
@@ -64,5 +72,9 @@ public class AppUser extends BaseEntity {
 
     public void addPoint() {
         this.point += 50L;
+    }
+
+    public void updateToken(String token) {
+        this.token = token;
     }
 }
