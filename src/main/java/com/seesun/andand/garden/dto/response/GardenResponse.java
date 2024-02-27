@@ -1,13 +1,12 @@
 package com.seesun.andand.garden.dto.response;
 
-import com.seesun.andand.appUserGarden.domain.AppUserGarden;
-import com.seesun.andand.appUserGarden.dto.AppUserGardenResponse;
+import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.mate.domain.Mate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -16,7 +15,13 @@ public class GardenResponse {
 
     private Long id;
 
+    private AppUser appUser;
+
     private Mate mate;
 
-    private List<AppUserGardenResponse> appUserGardenList;
+    private String picture;
+
+    private String content;
+
+    private LocalDateTime createdAt;
 }

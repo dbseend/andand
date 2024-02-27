@@ -2,7 +2,7 @@ package com.seesun.andand.garden.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.seesun.andand.appUserGarden.domain.AppUserGarden;
+import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.mate.domain.Mate;
 import jakarta.persistence.*;
@@ -22,11 +22,16 @@ public class Garden extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "garden", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
-    private List<AppUserGarden> appUserGardenList;
+    private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    private String content;
+
+    @ManyToOne()
+    @JoinColumn(name = "app_user_id")
+    @JsonManagedReference
+    private AppUser appUser;
+
+    @ManyToOne()
     @JoinColumn(name = "mate_id")
     @JsonManagedReference
     private Mate mate;

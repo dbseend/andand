@@ -3,7 +3,8 @@ package com.seesun.andand.appUser.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.appUserDaily.domain.AppUserDaily;
-import com.seesun.andand.appUserGarden.domain.AppUserGarden;
+import com.seesun.andand.configuration.BaseEntity;
+import com.seesun.andand.garden.domain.Garden;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "app_user")
-public class AppUser {
+public class AppUser extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,17 +36,17 @@ public class AppUser {
 
     private Long point;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonBackReference
     private List<AppUserMate> appUserMateList;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<AppUserDaily> dailyList;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<AppUserGarden> gardenList;
+    private List<Garden> gardenList;
 
     @Builder
     public AppUser(String name, Integer age, String phoneNumber, String userCode, Long point) {

@@ -3,11 +3,7 @@ package com.seesun.andand.util;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.seesun.andand.daily.domain.Daily;
-import com.seesun.andand.daily.domain.DailyRepository;
 import com.seesun.andand.daily.dto.response.DailyInfo;
-import com.seesun.andand.garden.domain.Garden;
-import com.seesun.andand.garden.domain.GardenRepository;
-import com.seesun.andand.garden.dto.response.GardenInfo;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +24,6 @@ public class UtilService {
 
     private final AmazonS3 amazonS3;
     private final MateRepository mateRepository;
-    private final DailyRepository dailyRepository;
-    private final GardenRepository gardenRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -85,22 +79,7 @@ public class UtilService {
         LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
         LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
         Daily daily = new Daily("웃음", mate, false);
-//        Daily daily = dailyRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-//                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
 
         return new DailyInfo(mate, daily, startDateTime, endDateTime);
-    }
-
-    public GardenInfo getInfoForGarden(Long mateId, LocalDate targetCreateDate) {
-
-        Mate mate = mateRepository.findById(mateId).
-                orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
-
-        LocalDateTime startDateTime = targetCreateDate.atStartOfDay();
-        LocalDateTime endDateTime = targetCreateDate.atTime(23, 59, 59);
-        Garden garden = gardenRepository.findByMateAndCreateDateBetween(mate, startDateTime, endDateTime).
-                orElseThrow(() -> new IllegalArgumentException("해당 일일이 없습니다."));
-
-        return new GardenInfo(mate, garden, startDateTime, endDateTime);
     }
 }
