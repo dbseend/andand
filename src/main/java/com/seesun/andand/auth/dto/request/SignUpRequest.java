@@ -3,8 +3,11 @@ package com.seesun.andand.auth.dto.request;
 import com.seesun.andand.appUser.domain.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class SignUpRequest {
 
@@ -18,17 +21,17 @@ public class SignUpRequest {
 
     private String phoneNumber;
 
-    private String picture;
+    private MultipartFile profileImage;
 
-    public AppUser toEntity(String userCode) {
+    public AppUser toEntity(String userCode, String profileImageName) {
         return AppUser.builder()
                 .userId(userId)
                 .password(password)
                 .name(name)
                 .age(age)
                 .phoneNumber(phoneNumber)
+                .profileImage(profileImageName)
                 .userCode(userCode)
-                .picture(picture)
                 .point(0L)
                 .build();
     }

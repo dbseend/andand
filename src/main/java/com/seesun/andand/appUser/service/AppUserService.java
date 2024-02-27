@@ -29,21 +29,18 @@ public class AppUserService {
         AppUser appUser = appUserRepository.findById(appUserId).
                 orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        return new AppUserResponse(
-                appUser.getId(),
-                appUser.getName(),
-                appUser.getAge(),
-                appUser.getPhoneNumber(),
-                appUser.getUserCode());
+        return new AppUserResponse(appUser);
     }
 
     // 회원정보 수정 메소드
-    public void updateAppUser(Long appUserId, AppUserUpdateRequest appUserUpdateRequest) {
+    public AppUserResponse updateAppUser(AppUserUpdateRequest appUserUpdateRequest) {
 
-        AppUser appUser = appUserRepository.findById(appUserId).
+        AppUser appUser = appUserRepository.findById(appUserUpdateRequest.getAppUserId()).
                 orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
-        appUser.updateInfo(appUserUpdateRequest.getName(), appUserUpdateRequest.getPhoneNumber());
+        appUser.updateInfo(appUser);
         appUserRepository.save(appUser);
+
+        return new AppUserResponse(appUser);
     }
 }

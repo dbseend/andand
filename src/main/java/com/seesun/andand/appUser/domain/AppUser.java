@@ -26,7 +26,7 @@ public class AppUser extends BaseEntity {
 
     private String password;
 
-    private String picture;
+    private String profileImage;
 
     private String name;
 
@@ -54,20 +54,23 @@ public class AppUser extends BaseEntity {
     private List<Garden> gardenList;
 
     @Builder
-    public AppUser(String userId, String password, String name, Integer age, String phoneNumber, String userCode, String picture, Long point) {
+    public AppUser(String userId, String password, String name, String profileImage, Integer age, String phoneNumber, String userCode, Long point) {
         this.userId = userId;
         this.password = password;
         this.name = name;
+        this.profileImage = profileImage;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.userCode = userCode;
-        this.picture = picture;
         this.point = point;
     }
 
-    public void updateInfo(String name, String phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
+    public void updateInfo(AppUser appUser) {
+        this.name = appUser.getName();
+        this.age = appUser.getAge();
+        this.phoneNumber = appUser.getPhoneNumber();
+        this.profileImage = appUser.getProfileImage();
+
     }
 
     public void addPoint() {
@@ -76,5 +79,9 @@ public class AppUser extends BaseEntity {
 
     public void updateToken(String token) {
         this.token = token;
+    }
+
+    public void uploadProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 }
