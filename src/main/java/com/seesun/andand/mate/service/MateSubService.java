@@ -40,4 +40,9 @@ public class MateSubService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
     }
 
+    public Mate findMateById(Long mateId) {
+        return mateRepository.findById(mateId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+    }
+
 }
