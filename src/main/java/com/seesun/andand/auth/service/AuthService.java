@@ -35,7 +35,7 @@ public class AuthService {
         String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY);
         String userCode = utilService.generateRandomCode();
         AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage));
-        mateSubService.connectMate(appUser);
+        mateSubService.createMate(appUser);
 
         return new SignUpResponse(appUser);
     }
