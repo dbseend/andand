@@ -1,5 +1,6 @@
 package com.seesun.andand.garden.dto.request;
 
+import com.seesun.andand.garden.domain.Garden;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

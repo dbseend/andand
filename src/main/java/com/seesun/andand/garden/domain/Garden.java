@@ -37,8 +37,10 @@ public class Garden extends BaseEntity {
     private Mate mate;
 
     @Builder
-    public Garden(Long id, Mate mate) {
-        this.id = id;
+    public Garden(String image, String content, AppUser appUser, Mate mate) {
+        this.image = image;
+        this.content = content;
+        this.appUser = appUser;
         this.mate = mate;
     }
 }

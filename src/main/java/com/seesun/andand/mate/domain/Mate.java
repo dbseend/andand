@@ -1,6 +1,7 @@
 package com.seesun.andand.mate.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.daily.domain.Daily;
@@ -44,10 +45,8 @@ public class Mate extends BaseEntity {
     private List<Garden> gardenList;
 
     @Builder
-    public Mate(String code, Integer dailyContinuousDays, Integer gardenLevel) {
+    public Mate(String code) {
         this.code = code;
-        this.dailyContinuousDays = dailyContinuousDays;
-        this.gardenLevel = gardenLevel;
     }
 
     public void addDailyContinuousDays() {

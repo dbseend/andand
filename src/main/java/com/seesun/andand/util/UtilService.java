@@ -43,7 +43,9 @@ public class UtilService {
         return amazonS3.getUrl(bucket, fullFilePath).toString();
     }
 
-    public String generateRandomCode(int length) {
+    public String generateRandomCode() {
+
+        final int length = 6;
 
         final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         final SecureRandom random = new SecureRandom();

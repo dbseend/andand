@@ -1,6 +1,7 @@
 package com.seesun.andand.daily.dto.response;
 
 import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
+import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.mate.domain.Mate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

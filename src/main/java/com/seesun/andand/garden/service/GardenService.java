@@ -7,7 +7,6 @@ import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class GardenService {
-    private final GardenRepository gardenRepository;
     private final MateRepository mateRepository;
 
     public GardenInfo getGardenInfo(Long mateId) {
@@ -31,6 +29,4 @@ public class GardenService {
 
         return new GardenInfo(gardenLevel, gardenNum, appUserNameList);
     }
-
-
 }
