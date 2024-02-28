@@ -1,7 +1,9 @@
 package com.seesun.andand.appUser.controller;
 
+import com.seesun.andand.appUser.dto.request.AppUserUpdateRequest;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.appUser.service.AppUserService;
+import com.seesun.andand.mate.dto.request.ConnectMateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,17 +15,31 @@ public class AppUserController {
 
     private final AppUserService appUserService;
 
-//    @PostMapping("/signUp")
-//    public ResponseEntity<Void> signUp(@RequestBody SignUpRequest signUpRequest) {
-//
-//        appUserService.signUp(signUpRequest);
-//
-//        return ResponseEntity.ok().build();
-//    }
+    // 회원정보 조회 API
+    @GetMapping("")
+    public ResponseEntity<AppUserResponse> getAppUser(@RequestParam String userId) {
 
-    @GetMapping("/{appUserId}")
-    public ResponseEntity<AppUserResponse> getAppUser(@PathVariable Long appUserId) {
+        return ResponseEntity.ok(appUserService.getAppUser(userId));
+    }
 
-        return ResponseEntity.ok(appUserService.getAppUser(appUserId));
+    // 회원정보 수정 API
+    @PatchMapping("")
+    public ResponseEntity<AppUserResponse> updateAppUser(@ModelAttribute AppUserUpdateRequest appUserUpdateRequest) throws Exception {
+
+        return ResponseEntity.ok(appUserService.updateAppUser(appUserUpdateRequest));
+    }
+
+    // 메이트 연결 API
+    @PostMapping("")
+    public ResponseEntity<Void> connectMate(@RequestBody ConnectMateRequest connectMateRequest) {
+        appUserService.connectMate(connectMateRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    // 메이트 연결 해제 API
+    @DeleteMapping("/appUser/{appUserId}")
+    public ResponseEntity<Void> disconnectMate(@PathVariable Long appUserId) {
+        appUserService.disconnectMate(appUserId);
+        return ResponseEntity.ok().build();
     }
 }
