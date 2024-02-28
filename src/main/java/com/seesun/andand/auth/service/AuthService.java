@@ -6,6 +6,7 @@ import com.seesun.andand.auth.dto.request.SignInRequest;
 import com.seesun.andand.auth.dto.request.SignUpRequest;
 import com.seesun.andand.auth.dto.response.SignUpResponse;
 import com.seesun.andand.auth.dto.response.SignInResponse;
+import com.seesun.andand.mate.service.MateSubService;
 import com.seesun.andand.util.UtilService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,9 @@ public class AuthService {
     private final UtilService utilService;
     private final TokenProvider tokenProvider;
     private final AuthSubService authSubService;
+    private final MateSubService mateSubService;
 
-    // 회원가입 메소드(아이디 중복 체크 + 프로필 사진 업로드 + 유저 코드 생성 + 객체 생성)
+    // 회원가입 메소드(아이디 중복 체크 + 프로필 사진 업로드 + 유저 코드 생성 + 본인에 대한 그룹 생성 + 객체 생성)
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest) throws Exception {
 
@@ -33,6 +35,7 @@ public class AuthService {
         String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY);
         String userCode = utilService.generateRandomCode();
         AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage));
+        mateSubService.connectMate(appUser);
 
         return new SignUpResponse(appUser);
     }

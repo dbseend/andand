@@ -23,7 +23,7 @@ public class AppUserController {
 
     // 회원정보 수정 API
     @PatchMapping("")
-    public ResponseEntity<AppUserResponse> updateAppUser(@ModelAttribute AppUserUpdateRequest appUserUpdateRequest) {
+    public ResponseEntity<AppUserResponse> updateAppUser(@ModelAttribute AppUserUpdateRequest appUserUpdateRequest) throws Exception {
 
         return ResponseEntity.ok(appUserService.updateAppUser(appUserUpdateRequest));
     }

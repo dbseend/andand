@@ -22,19 +22,24 @@ public class AppUser extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String userId;
 
+    @Column(nullable = false)
     private String password;
 
     private String profileImage;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private Integer age;
 
+    @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String userCode;
 
     private Long point;
@@ -65,22 +70,21 @@ public class AppUser extends BaseEntity {
         this.point = point;
     }
 
-    public void updateInfo(AppUser appUser) {
-        this.name = appUser.getName();
-        this.age = appUser.getAge();
-        this.phoneNumber = appUser.getPhoneNumber();
-        this.profileImage = appUser.getProfileImage();
+    // 회원정보 수정 메소드
+    public void updateInfo(String name, Integer age, String phoneNumber, String newProfileImage) {
+        this.name = name;
+        this.age = age;
+        this.phoneNumber = phoneNumber;
+        this.profileImage = newProfileImage;
     }
 
+    // 포인트 추가 메소드
     public void addPoint() {
         this.point += 50L;
     }
 
+    // 토큰 업데이트 메소드
     public void updateToken(String token) {
         this.token = token;
-    }
-
-    public void uploadProfileImage(String profileImage) {
-        this.profileImage = profileImage;
     }
 }
