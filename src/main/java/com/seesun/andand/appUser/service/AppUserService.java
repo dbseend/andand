@@ -6,33 +6,48 @@ import com.seesun.andand.appUser.dto.request.AppUserUpdateRequest;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.auth.service.AuthSubService;
 
+import com.seesun.andand.mate.dto.response.MateResponse;
+import com.seesun.andand.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class AppUserService {
 
+    private static final String PROFILE_DIRECTORY = "profile";
+
     private final AppUserRepository appUserRepository;
     private final AuthSubService authSubService;
+    private final UtilService utilService;
 
     // 회원정보 조회 메소드
     public AppUserResponse getAppUser(String appUserId) {
 
         AppUser appUser = authSubService.findUserByUserId(appUserId);
+        log.info("mate list: " + appUser.getAppUserMateList());
 
-        return new AppUserResponse(appUser);
+        List<MateResponse> mateList = appUser.getAppUserMateList().stream()
+                .map(appUserMate -> new MateResponse(appUserMate.getMate()))
+                .toList();
+
+        return new AppUserResponse(appUser, mateList);
     }
 
     // 회원정보 수정 메소드
-    public AppUserResponse updateAppUser(AppUserUpdateRequest appUserUpdateRequest) {
+    public AppUserResponse updateAppUser(AppUserUpdateRequest appUserUpdateRequest) throws Exception {
 
         AppUser appUser = authSubService.findUserById(appUserUpdateRequest.getAppUserId());
 
-        appUser.updateInfo(appUser);
+        String newProfileImage = utilService.uploadImage(appUserUpdateRequest.getProfileImage(), PROFILE_DIRECTORY);
+
+        appUser.updateInfo(appUserUpdateRequest.getName(), appUserUpdateRequest.getAge(), appUserUpdateRequest.getPhoneNumber(), newProfileImage);
         appUserRepository.save(appUser);
+        log.info("new id: " + appUser.getUserId() + " new name: " + appUser.getName() + " new age: " + appUser.getAge() + " new phone: " + appUser.getPhoneNumber() + " new profile: " + appUser.getProfileImage());
 
         return new AppUserResponse(appUser);
     }

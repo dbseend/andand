@@ -15,8 +15,6 @@ public class AppUserUpdateRequest {
 
     private Long appUserId;
 
-    private String userId;
-
     private MultipartFile profileImage;
 
     private String name;
