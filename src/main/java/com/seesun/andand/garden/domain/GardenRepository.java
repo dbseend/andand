@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface GardenRepository extends JpaRepository<Garden, Long> {
 
     Optional<Garden> findByMateAndCreateDateBetween(Mate mate, LocalDateTime startDateTime, LocalDateTime endDateTime);
-
 }
