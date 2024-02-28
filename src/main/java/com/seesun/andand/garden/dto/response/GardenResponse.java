@@ -24,4 +24,5 @@ public class GardenResponse {
     private String content;
 
     private LocalDateTime createdAt;
+
 }
