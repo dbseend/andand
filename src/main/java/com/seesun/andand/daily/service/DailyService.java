@@ -38,20 +38,21 @@ public class DailyService {
     // 데일리 자동 생성 및 연속 날짜 갱신 메소드
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     public void everyDay() {
-
+        log.info("헤헤");
         LocalDate yesterday = LocalDate.now().minusDays(1); // 어제의 날짜를 얻습니다.
         LocalDateTime startDateTime = yesterday.atStartOfDay();
         LocalDateTime endDateTime = yesterday.atTime(23, 59, 59);
         List<Mate> mateList = mateRepository.findAll();
 
-        // 어제 일일 등록이 안된 메이트들의 연속일을 초기화합니다. -> 수정필요
-//        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
-//        for (Daily daily : yesterdayDailyList) {
-//            if (!daily.getIsBothUploaded()) {
-//                daily.getMate().initDailyContinuousDays();
-//                mateRepository.save(daily.getMate());
-//            }
-//        }
+        // 어제 일일 등록이 안된 메이트들의 연속일을 초기화합니다.
+        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
+        for (Daily daily : yesterdayDailyList) {
+            if (!daily.getIsBothUploaded()) {
+                Mate mate = daily.getMate();
+                mate.initDailyContinuousDays(); // 메이트의 연속일 수 초기화
+                mateRepository.save(mate);
+            }
+        }
 
         List<Daily> todayDailyList = mateList.stream()
                 .map(mate -> new Daily("웃음", mate, false))
