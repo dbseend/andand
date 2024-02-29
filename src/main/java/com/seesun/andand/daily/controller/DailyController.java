@@ -3,6 +3,7 @@ package com.seesun.andand.daily.controller;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.service.DailyService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class DailyController {
     private final DailyService dailyService;
 
     @PostMapping("/upload")
+    @ApiOperation(value = "일상 게시물 업로드", notes = "일상 게시물 업로드 API")
     public ResponseEntity<Void> uploadDaily(@RequestParam Long appUserId, @RequestParam Long mateId, @RequestParam MultipartFile file) throws IOException {
 
         dailyService.uploadDaily(appUserId, mateId, file);
@@ -27,6 +29,7 @@ public class DailyController {
     }
 
     @PostMapping("/reUpload")
+    @ApiOperation(value = "일상 게시물 재업로드", notes = "일상 게시물 재업로드 API")
     public ResponseEntity<Void> reUploadDaily(@RequestParam Long appUserId, @RequestParam MultipartFile file) throws IOException {
 
         dailyService.reUploadDaily(appUserId, file);
@@ -35,6 +38,7 @@ public class DailyController {
     }
 
     @GetMapping("/today")
+    @ApiOperation(value = "오늘의 일상 게시물 조회", notes = "오늘의 일상 게시물 조회 API")
     public ResponseEntity<DailyResponse> getTodayDaily(@RequestParam Long mateId) {
 
         DailyResponse dailyResponse = dailyService.getTodayDaily(mateId);
@@ -43,6 +47,7 @@ public class DailyController {
     }
 
     @GetMapping("")
+    @ApiOperation(value = "특정 날짜의 일상 게시물 조회", notes = "특정 날짜의 일상 게시물 조회 API")
     public ResponseEntity<DailyResponse> getSpecificDaily(@RequestParam Long mateId, @RequestParam LocalDate date) {
 
         DailyResponse dailyResponse = dailyService.getSpecificDaily(mateId, date);
@@ -52,6 +57,7 @@ public class DailyController {
 
 
     @GetMapping("/info")
+    @ApiOperation(value = "일상 정보 조회", notes = "일상 정보 조회 API")
     public ResponseEntity<DailyInfoResponse> getDailyInfo(@RequestParam String userId) {
 
         DailyInfoResponse dailyInfoResponse = dailyService.getDailyInfo(userId);
