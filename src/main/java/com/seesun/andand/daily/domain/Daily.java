@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,7 @@ public class Daily extends BaseEntity {
         this.tag = tag;
         this.mate = mate;
         this.isBothUploaded = false;
+        this.appUserDailyList = new ArrayList<>();
     }
 
     public void updateIsBothUploaded() {

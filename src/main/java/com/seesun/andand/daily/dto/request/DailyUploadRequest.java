@@ -13,5 +13,4 @@ public class DailyUploadRequest {
     private Long mateId;
 
     private MultipartFile file;
-
 }

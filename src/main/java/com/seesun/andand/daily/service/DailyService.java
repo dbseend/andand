@@ -10,6 +10,7 @@ import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
+import com.seesun.andand.daily.dto.request.DailyUploadRequest;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.dto.response.DailyInfo;
@@ -26,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,7 +48,7 @@ public class DailyService {
     // 데일리 자동 생성 및 연속 날짜 갱신 메소드
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     public void everyDay() {
-        log.info("헤헤");
+        //log.info("헤헤");
         LocalDate yesterday = LocalDate.now().minusDays(1); // 어제의 날짜를 얻습니다.
         LocalDateTime startDateTime = yesterday.atStartOfDay();
         LocalDateTime endDateTime = yesterday.atTime(23, 59, 59);
@@ -70,9 +73,8 @@ public class DailyService {
 
     // 일일 등록 메소드
     public void uploadDaily(Long appUserId, Long mateId, MultipartFile file) throws IOException {
-
-        AppUser appUser = appUserRepository.findById(appUserId).
-                orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        AppUser appUser = appUserRepository.findById(appUserId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         LocalDate today = LocalDate.now();
         DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);
@@ -81,7 +83,14 @@ public class DailyService {
 
         String picture = utilService.uploadImage(file, DAILY);
 
-        AppUserDaily appUserDaily = new AppUserDaily(appUser, daily, picture);
+        // Daily 엔티티를 먼저 저장합니다.
+        dailyRepository.save(daily);
+
+        // AppUserDaily 엔티티를 생성하고, Daily 엔티티의 참조를 설정합니다.
+        AppUserDaily appUserDaily = Optional.ofNullable(new AppUserDaily(appUser, daily, picture))
+                .orElseThrow(() -> new IllegalArgumentException("AppUserDaily 객체를 생성할 수 없습니다."));
+
+        // AppUserDaily 엔티티를 저장합니다.
         appUserDailyRepository.save(appUserDaily);
 
         appUser.addPoint();
@@ -96,6 +105,7 @@ public class DailyService {
             mateRepository.save(mate);
         }
     }
+
 
     public void reUploadDaily(Long appUserId, MultipartFile file) throws IOException {
 
@@ -142,6 +152,8 @@ public class DailyService {
         );
     }
 
+
+    //사용자 조회
     public DailyInfoResponse getDailyInfo(String userId) {
 
         AppUserResponse appUserResponse = appUserService.getAppUser(userId);
@@ -161,4 +173,5 @@ public class DailyService {
 
         return new DailyInfoResponse(appUserResponse , dailyContinuousDays, dailyTag);
     }
+
 }
