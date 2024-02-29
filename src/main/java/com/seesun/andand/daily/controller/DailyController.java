@@ -1,5 +1,6 @@
 package com.seesun.andand.daily.controller;
 
+import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.service.DailyService;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,14 @@ public class DailyController {
         DailyResponse dailyResponse = dailyService.getSpecificDaily(mateId, date);
 
         return ResponseEntity.ok().body(dailyResponse);
+    }
+
+
+    @GetMapping("/info")
+    public ResponseEntity<DailyInfoResponse> getDailyInfo(@RequestParam String userId) {
+
+        DailyInfoResponse dailyInfoResponse = dailyService.getDailyInfo(userId);
+
+        return ResponseEntity.ok().body(dailyInfoResponse);
     }
 }
