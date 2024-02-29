@@ -23,4 +23,5 @@ public class DailyResponse {
     private Boolean isBothUploaded;
 
     private List<AppUserDailyResponse> appUserDailyList;
+
 }
