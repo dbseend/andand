@@ -1,9 +1,6 @@
 package com.seesun.andand.mate.service;
 
 import com.seesun.andand.appUser.domain.AppUser;
-import com.seesun.andand.appUser.domain.AppUserRepository;
-import com.seesun.andand.appUser.dto.response.AppUserSummaryResponse;
-import com.seesun.andand.appUser.dto.response.PartnerResponse;
 import com.seesun.andand.appUser.service.AppUserSubService;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.appUserMate.domain.AppUserMateRepository;

@@ -3,7 +3,6 @@ package com.seesun.andand.appUser.controller;
 import com.seesun.andand.appUser.dto.request.AppUserUpdateRequest;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.appUser.service.AppUserService;
-import com.seesun.andand.mate.dto.request.ConnectMateRequest;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
