@@ -28,18 +28,4 @@ public class AppUserController {
 
         return ResponseEntity.ok(appUserService.updateAppUser(appUserUpdateRequest));
     }
-
-    // 메이트 연결 API
-    @PostMapping("")
-    public ResponseEntity<Void> connectMate(@RequestBody ConnectMateRequest connectMateRequest) {
-        appUserService.connectMate(connectMateRequest);
-        return ResponseEntity.ok().build();
-    }
-
-    // 메이트 연결 해제 API
-    @DeleteMapping("/appUser/{appUserId}")
-    public ResponseEntity<Void> disconnectMate(@PathVariable Long appUserId) {
-        appUserService.disconnectMate(appUserId);
-        return ResponseEntity.ok().build();
-    }
 }

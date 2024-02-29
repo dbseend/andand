@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ConnectMateRequest {
 
-    private Long appUserId;
+    private String userId;
 
     private String userCode;
 }
