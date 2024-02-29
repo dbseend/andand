@@ -2,10 +2,15 @@ package com.seesun.andand.auth.service;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUser.domain.AppUserRepository;
+import com.seesun.andand.appUser.dto.response.AppUserSummaryResponse;
+import com.seesun.andand.appUser.dto.response.PartnerResponse;
+import com.seesun.andand.appUser.service.AppUserSubService;
 import com.seesun.andand.auth.dto.request.SignInRequest;
 import com.seesun.andand.auth.dto.request.SignUpRequest;
 import com.seesun.andand.auth.dto.response.SignUpResponse;
 import com.seesun.andand.auth.dto.response.SignInResponse;
+import com.seesun.andand.mate.dto.response.MateResponse;
+import com.seesun.andand.mate.service.MateService;
 import com.seesun.andand.mate.service.MateSubService;
 import com.seesun.andand.util.UtilService;
 import jakarta.transaction.Transactional;
@@ -26,6 +31,8 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final AuthSubService authSubService;
     private final MateSubService mateSubService;
+    private final AppUserSubService appUserSubService;
+    private final MateService mateService;
 
     // 회원가입 메소드
     @Transactional
@@ -49,12 +56,17 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
+        AppUserSummaryResponse appUserSummaryResponse = new AppUserSummaryResponse(appUser);
+
+        PartnerResponse partnerResponse = appUserSubService.findPartnerInfoByUserId(appUser.getUserId()); // 파트너 정보 조회
+
+        MateResponse mateResponse = mateService.findMate(appUser.getUserId()); // 메이트 정보 조회
+
         String token = tokenProvider.create(appUser.getUserId()); // 토큰 생성
         appUser.updateToken(token);
-
         appUserRepository.save(appUser);
 
-        return new SignInResponse(appUser.getUserId(), token);
+        return new SignInResponse(appUserSummaryResponse, partnerResponse, mateResponse, token);
     }
 
     // 로그아웃 메소드

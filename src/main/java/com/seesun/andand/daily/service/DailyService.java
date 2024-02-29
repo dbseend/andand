@@ -146,8 +146,9 @@ public class DailyService {
 
         AppUserResponse appUserResponse = appUserService.getAppUser(userId);
 
-        AppUser appUser = appUserRepository.findById(appUserResponse.getId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+//        AppUser appUser = appUserRepository.findById(appUserResponse.getId())
+//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+        AppUser appUser = new AppUser();
 
         List<Mate> filteredMates = appUser.getAppUserMateList().stream()
                 .map(AppUserMate::getMate)
@@ -159,6 +160,6 @@ public class DailyService {
 
         String dailyTag = "웃음";
 
-        return new DailyInfoResponse(appUserResponse , dailyContinuousDays, dailyTag);
+        return new DailyInfoResponse(appUserResponse, dailyContinuousDays, dailyTag);
     }
 }
