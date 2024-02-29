@@ -7,6 +7,7 @@ import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.garden.domain.Garden;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "mate")
 public class Mate extends BaseEntity {
 
@@ -44,9 +46,11 @@ public class Mate extends BaseEntity {
     @JsonBackReference
     private List<Garden> gardenList;
 
-    @Builder
     public Mate(String code) {
         this.code = code;
+        this.dailyContinuousDays = 0;
+        this.gardenLevel = 1;
+        this.gardenNum = 0;
     }
 
     public void addDailyContinuousDays() {
@@ -61,22 +65,15 @@ public class Mate extends BaseEntity {
         this.gardenNum++;
     }
 
-    //garden에 레벨값 전달 함수
-    public int getLevel() {
-        return gardenLevel;
-    }
-
     //gardennum이 일정 숫자를 초과하면 레벨 증가 함수
     public void addGardenLevel() {
         int gardenLevel = 1;
 
         if (gardenNum >= 30) {
             gardenLevel++;
-        }
-        else if(gardenNum >= 65){
+        } else if (gardenNum >= 65) {
             gardenLevel++;
-        }
-        else if(gardenNum >= 90){
+        } else if (gardenNum >= 90) {
             gardenLevel++;
         }
     }

@@ -2,49 +2,62 @@ package com.seesun.andand.appUser.service;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUser.domain.AppUserRepository;
+import com.seesun.andand.appUser.dto.response.AppUserSummaryResponse;
+import com.seesun.andand.appUser.dto.response.PartnerResponse;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.appUserMate.domain.AppUserMateRepository;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
+import com.seesun.andand.mate.service.MateSubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AppUserSubService {
 
     private final AppUserRepository appUserRepository;
-    private final AppUserMateRepository appUserMateRepository;
-    private final MateRepository mateRepository;
+    private final MateSubService mateSubService;
 
-    public AppUser findAppUserById(Long userId) {
-        return appUserRepository.findById(userId)
+    // id로 메이트 조회 메소드
+    public AppUser findAppUserById(String userId) {
+        return appUserRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
     }
 
-    public void createMate(AppUser appUser) {
+    // 메이트 코드로 파트너 조회 메소드
+    public PartnerResponse findPartnerInfoByMateCode(String mateCode) {
 
-        Mate mate = new Mate(appUser.getUserCode());
-        mateRepository.save(mate);
+        Mate mate = mateSubService.findMateByCode(mateCode);
 
-        AppUserMate appUserMate = new AppUserMate(appUser, mate);
-        appUserMateRepository.save(appUserMate);
+        if (mate.getAppUserMateList().size() == 2) {
+            throw new IllegalArgumentException("이미 메이트가 연결되어 있습니다.");
+        }
+
+        AppUser appUser = mate.getAppUserMateList().get(0).getAppUser();
+
+        return new PartnerResponse(appUser);
     }
 
-    // 메이트 연결 메소드
-    public void connectMate(AppUser appUser, Mate mate) {
-        AppUserMate appUserMate = new AppUserMate(appUser, mate);
-        appUserMateRepository.save(appUserMate);
-    }
+    // 유저 아이디로 파트너 정보 조회 메소드
+    public PartnerResponse findPartnerInfoByUserId(String userId) {
 
-    // 코드로 메이트 조회 메소드
-    public Mate findMateByCode(String userCode) {
-        return mateRepository.findByCode(userCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
-    }
+        AppUser appUser = findAppUserById(userId);
+        List<AppUserMate> appUserMateList = appUser.getAppUserMateList();
+        Optional<Mate> mate = appUserMateList.stream()
+                .map(AppUserMate::getMate)
+                .filter(appUserMateMate -> appUserMateMate.getAppUserMateList().size() == 2)
+                .findFirst();
 
-    public Mate findMateById(Long mateId) {
-        return mateRepository.findById(mateId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+        AppUser partner = mate.get().getAppUserMateList().stream()
+                .filter(appUserMate -> !appUserMate.getAppUser().getUserId().equals(userId))
+                .findFirst()
+                .get()
+                .getAppUser();
+
+        return new PartnerResponse(partner);
     }
 }

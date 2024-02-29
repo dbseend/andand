@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface AppUserMateRepository extends JpaRepository<AppUserMate, Long> {
 
     List<AppUserMate> findByAppUserAndMate(AppUser appUser, Mate mate);
+
+    List<AppUserMate> findByMate(Mate mate);
 }

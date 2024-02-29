@@ -27,29 +27,29 @@ public class AuthService {
     private final AuthSubService authSubService;
     private final MateSubService mateSubService;
 
-    // 회원가입 메소드(아이디 중복 체크 + 프로필 사진 업로드 + 유저 코드 생성 + 본인에 대한 그룹 생성 + 객체 생성)
+    // 회원가입 메소드
     @Transactional
     public SignUpResponse signUp(SignUpRequest signUpRequest) throws Exception {
 
-        authSubService.checkIdAvailability(signUpRequest.getUserId());
-        String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY);
-        String userCode = utilService.generateRandomCode();
-        AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage));
-        mateSubService.createMate(appUser);
+        authSubService.checkIdAvailability(signUpRequest.getUserId()); // 아이디 중복 체크
+        String profileImage = utilService.uploadImage(signUpRequest.getProfileImage(), PROFILE_DIRECTORY); // 프로필 이미지 업로드
+        String userCode = utilService.generateRandomCode(); // 유저 코드 생성
+        AppUser appUser = appUserRepository.save(signUpRequest.toEntity(userCode, profileImage)); // 사용자 저장
+        mateSubService.createMate(appUser); // 사용자의 메이트 생성
 
         return new SignUpResponse(appUser);
     }
 
-    // 로그인 메소드(아이디 비밀번호 확인, 토큰 생성)
+    // 로그인 메소드
     @Transactional
     public SignInResponse signIn(SignInRequest signInRequest) {
 
-        AppUser appUser = authSubService.findUserByUserId(signInRequest.getUserId());
+        AppUser appUser = authSubService.findUserByUserId(signInRequest.getUserId()); // 아이디로 사용자 조회
         if (!appUser.getPassword().equals(signInRequest.getPassword())) { // 비밀번호가 일치하지 않는 경우
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        String token = tokenProvider.create(appUser.getUserId());
+        String token = tokenProvider.create(appUser.getUserId()); // 토큰 생성
         appUser.updateToken(token);
 
         appUserRepository.save(appUser);
@@ -57,7 +57,7 @@ public class AuthService {
         return new SignInResponse(appUser.getUserId(), token);
     }
 
-    // 로그아웃 메소드(토큰 삭제)
+    // 로그아웃 메소드
     @Transactional
     public void signOut(String userId) {
         AppUser appUser = appUserRepository.findByUserId(userId)

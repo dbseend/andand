@@ -16,7 +16,6 @@ public class MateSubService {
 
     private final MateRepository mateRepository;
     private final AppUserMateRepository appUserMateRepository;
-    private final AppUserSubService appUserSubService;
 
     // 메이트 생성 메소드
     public void createMate(AppUser appUser) {
@@ -37,11 +36,6 @@ public class MateSubService {
     // 코드로 메이트 조회 메소드
     public Mate findMateByCode(String userCode) {
         return mateRepository.findByCode(userCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
-    }
-
-    public Mate findMateById(Long mateId) {
-        return mateRepository.findById(mateId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
     }
 
