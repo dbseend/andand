@@ -2,15 +2,20 @@ package com.seesun.andand.daily.service;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUser.domain.AppUserRepository;
+import com.seesun.andand.appUser.dto.response.AppUserResponse;
+import com.seesun.andand.appUser.service.AppUserService;
 import com.seesun.andand.appUserDaily.domain.AppUserDaily;
 import com.seesun.andand.appUserDaily.domain.AppUserDailyRepository;
 import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
+import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
+import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.dto.response.DailyInfo;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
+import com.seesun.andand.mate.dto.response.MateResponse;
 import com.seesun.andand.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +27,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,24 +40,26 @@ public class DailyService {
     private final DailyRepository dailyRepository;
     private final AppUserDailyRepository appUserDailyRepository;
     private final UtilService utilService;
+    private final AppUserService appUserService;
 
     // 데일리 자동 생성 및 연속 날짜 갱신 메소드
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행
     public void everyDay() {
-
+        log.info("헤헤");
         LocalDate yesterday = LocalDate.now().minusDays(1); // 어제의 날짜를 얻습니다.
         LocalDateTime startDateTime = yesterday.atStartOfDay();
         LocalDateTime endDateTime = yesterday.atTime(23, 59, 59);
         List<Mate> mateList = mateRepository.findAll();
 
-        // 어제 일일 등록이 안된 메이트들의 연속일을 초기화합니다. -> 수정필요
-//        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
-//        for (Daily daily : yesterdayDailyList) {
-//            if (!daily.getIsBothUploaded()) {
-//                daily.getMate().initDailyContinuousDays();
-//                mateRepository.save(daily.getMate());
-//            }
-//        }
+        // 어제 일일 등록이 안된 메이트들의 연속일을 초기화합니다.
+        List<Daily> yesterdayDailyList = dailyRepository.findByCreateDateBetween(startDateTime, endDateTime);
+        for (Daily daily : yesterdayDailyList) {
+            if (!daily.getIsBothUploaded()) {
+                Mate mate = daily.getMate();
+                mate.initDailyContinuousDays(); // 메이트의 연속일 수 초기화
+                mateRepository.save(mate);
+            }
+        }
 
         List<Daily> todayDailyList = mateList.stream()
                 .map(mate -> new Daily("웃음", mate, false))
@@ -132,5 +140,25 @@ public class DailyService {
                 , daily.getIsBothUploaded()
                 , appUserDailyResponseList
         );
+    }
+
+    public DailyInfoResponse getDailyInfo(String userId) {
+
+        AppUserResponse appUserResponse = appUserService.getAppUser(userId);
+
+        AppUser appUser = appUserRepository.findById(appUserResponse.getId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+
+        List<Mate> filteredMates = appUser.getAppUserMateList().stream()
+                .map(AppUserMate::getMate)
+                .filter(mate -> mate.getAppUserMateList().size() == 2)
+                .peek(mate -> log.info("mate.getAppUserMateList().size() : " + mate.getAppUserMateList().size()))
+                .toList();
+
+        Integer dailyContinuousDays = filteredMates.get(0).getDailyContinuousDays();
+
+        String dailyTag = "웃음";
+
+        return new DailyInfoResponse(appUserResponse , dailyContinuousDays, dailyTag);
     }
 }
