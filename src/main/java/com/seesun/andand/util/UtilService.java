@@ -28,6 +28,7 @@ public class UtilService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    // 이미지 업로드
     public String uploadImage(MultipartFile multipartFile, String directoryPath) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         log.info("originalFilename: " + originalFilename);
@@ -43,6 +44,7 @@ public class UtilService {
         return amazonS3.getUrl(bucket, fullFilePath).toString();
     }
 
+    // 랜덤 코드 생성
     public String generateRandomCode() {
 
         final int length = 6;
@@ -58,6 +60,7 @@ public class UtilService {
         return code.toString();
     }
 
+    // 두 명이 모두 업로드 했는지 확인
     public boolean isBothUploaded(Long mateId) {
 
         boolean isBothUploaded = false;
@@ -73,6 +76,7 @@ public class UtilService {
         return isBothUploaded;
     }
 
+    // 해당 날짜의 DailyInfo를 얻습니다.
     public DailyInfo getInfoForDaily(Long mateId, LocalDate targetCreateDate) {
 
         Mate mate = mateRepository.findById(mateId).
