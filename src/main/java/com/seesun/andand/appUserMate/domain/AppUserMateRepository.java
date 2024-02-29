@@ -4,12 +4,13 @@ import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.mate.domain.Mate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface AppUserMateRepository extends JpaRepository<AppUserMate, Long> {
 
-    List<AppUserMate> findByAppUserAndMate(AppUser appUser, Mate mate);
+    Optional<AppUserMate> findByAppUserAndMate(AppUser appUser, Mate mate);
 
-    List<AppUserMate> findByMate(Mate mate);
+    void deleteByAppUserAndMate(AppUser appUser, Mate mate);
+
+    void deleteByAppUserIdAndMateId(Long appUserId, Long mateId);
 }

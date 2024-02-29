@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AppUserResponse {
 
+    private String userId;
+
     private String name;
 
     private Integer age;
@@ -23,6 +25,7 @@ public class AppUserResponse {
     private String profileImage;
 
     public AppUserResponse(AppUser appUser) {
+        this.userId = appUser.getUserId();
         this.profileImage = appUser.getProfileImage();
         this.name = appUser.getName();
         this.age = appUser.getAge();
