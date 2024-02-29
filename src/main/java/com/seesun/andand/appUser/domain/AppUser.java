@@ -46,7 +46,7 @@ public class AppUser extends BaseEntity {
 
     private String token;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<AppUserMate> appUserMateList;
 

@@ -38,5 +38,4 @@ public class MateSubService {
         return mateRepository.findByCode(userCode)
                 .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
     }
-
 }
