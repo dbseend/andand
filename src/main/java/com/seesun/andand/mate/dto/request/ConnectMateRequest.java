@@ -1,6 +1,7 @@
 package com.seesun.andand.mate.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ConnectMateRequest {
 
-    @ApiModelProperty(value = "사용자 ID", required = true)
+    @Schema(description = "사용자 ID", example = "1", required = true)
     private String userId;
 
-    @ApiModelProperty(value = "사용자 코드", required = true)
+    @Schema(description = "동행 코드", example = "1", required = true)
     private String userCode;
 }

@@ -4,6 +4,7 @@ import com.seesun.andand.appUser.dto.request.AppUserUpdateRequest;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.appUser.service.AppUserService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AppUserController {
     // 회원정보 조회 API
 
     @GetMapping("")
-    @ApiOperation(value = "회원정보 조회", notes = "회원정보 조회 API")
+    @Operation(summary = "회원정보 조회", description = "회원정보 조회 API")
     public ResponseEntity<AppUserResponse> getAppUser(@RequestParam String userId) {
 
         return ResponseEntity.ok(appUserService.getAppUser(userId));
@@ -26,7 +27,7 @@ public class AppUserController {
 
     // 회원정보 수정 API
     @PatchMapping("")
-    @ApiOperation(value = "회원정보 수정", notes = "회원정보 수정 API")
+    @Operation(summary = "회원정보 수정", description = "회원정보 수정 API")
     public ResponseEntity<AppUserResponse> updateAppUser(@ModelAttribute AppUserUpdateRequest appUserUpdateRequest) throws Exception {
 
         return ResponseEntity.ok(appUserService.updateAppUser(appUserUpdateRequest));

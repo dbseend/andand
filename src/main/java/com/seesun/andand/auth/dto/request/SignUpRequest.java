@@ -2,6 +2,7 @@ package com.seesun.andand.auth.dto.request;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,22 +13,22 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class SignUpRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private String userId;
 
-    @ApiModelProperty(value = "비밀번호", required = true)
+    @Schema(description = "비밀번호", example = "1234", required = true)
     private String password;
 
-    @ApiModelProperty(value = "이름", required = true)
+    @Schema(description = "이름", example = "홍길동", required = true)
     private String name;
 
-    @ApiModelProperty(value = "나이", required = true)
+    @Schema(description = "나이", example = "20", required = true)
     private Integer age;
 
-    @ApiModelProperty(value = "전화번호", required = true)
+    @Schema(description = "성별", example = "M", required = true)
     private String phoneNumber;
 
-    @ApiModelProperty(value = "프로필 이미지", required = true)
+    @Schema(description = "프로필 이미지", required = true)
     private MultipartFile profileImage;
 
     public AppUser toEntity(String userCode, String profileImageName) {

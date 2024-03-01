@@ -2,6 +2,7 @@ package com.seesun.andand.appUser.dto.response;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PartnerResponse {
 
-    @ApiModelProperty(value = "이름", required = true)
+    @Schema(description = "이름", example = "홍길동", required = true)
     private String partnerUserName;
 
-    @ApiModelProperty(value = "프로필 이미지", required = true)
+    @Schema(description = "프로필 이미지", required = true)
     private String partnerProfileImage;
 
     public PartnerResponse(AppUser appUser) {

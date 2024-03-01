@@ -2,6 +2,7 @@ package com.seesun.andand.garden.dto.request;
 
 import com.seesun.andand.garden.domain.Garden;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GardenRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema (description = "사용자 ID", example = "1", required = true)
     private Long appUserId;
 
-    @ApiModelProperty(value = "제목", required = true)
+    @Schema(description = "사진", required = true)
     private String picture;
 
-    @ApiModelProperty(value = "내용", required = true)
+    @Schema(description = "내용", example = "안녕하세요", required = true)
     private String content;
 }

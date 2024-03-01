@@ -1,6 +1,7 @@
 package com.seesun.andand.auth.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignInRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private String userId;
 
-    @ApiModelProperty(value = "비밀번호", required = true)
+    @Schema(description = "비밀번호", example = "1234", required = true)
     private String password;
 }

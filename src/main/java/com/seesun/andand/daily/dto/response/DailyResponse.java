@@ -4,6 +4,7 @@ import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.mate.domain.Mate;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,19 +16,19 @@ import java.util.List;
 @AllArgsConstructor
 public class DailyResponse {
 
-    @ApiModelProperty(value = "일일 ID", required = true)
+    @Schema(description = "데일리 ID", example = "1", required = true)
     private Long id;
 
-    @ApiModelProperty(value = "일일 정보", required = true)
+    @Schema(description = "메이트 정보", required = true)
     private Mate mate;
 
-    @ApiModelProperty(value = "일일 정보", required = true)
+    @Schema(description = "데일리 정보", required = true)
     private String tag;
 
-    @ApiModelProperty(value = "일일 정보", required = true)
+    @Schema(description = "시작 일시", required = true)
     private Boolean isBothUploaded;
 
-    @ApiModelProperty(value = "일일 정보", required = true)
+    @Schema(description = "종료 일시", required = true)
     private List<AppUserDailyResponse> appUserDailyList;
 
 }

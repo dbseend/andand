@@ -2,6 +2,7 @@ package com.seesun.andand.appUserDaily.dto;
 
 import com.seesun.andand.appUserDaily.domain.AppUserDaily;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AppUserDailyResponse {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private Long id;
 
-    @ApiModelProperty(value = "프로필 이미지", required = true)
+    @Schema(description = "프로필 이미지", required = true)
     private String picture;
 
     public AppUserDailyResponse(Long id, String picture) {

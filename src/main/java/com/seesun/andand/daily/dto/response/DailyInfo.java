@@ -3,6 +3,7 @@ package com.seesun.andand.daily.dto.response;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.mate.domain.Mate;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class DailyInfo {
 
-    @ApiModelProperty(value = "메이트 정보", required = true)
+    @Schema(description = "메이트 정보", required = true)
     private Mate mate;
 
-    @ApiModelProperty(value = "일일 정보", required = true)
+    @Schema(description = "데일리 정보", required = true)
     private Daily daily;
 
-    @ApiModelProperty(value = "시작 일시", required = true)
+    @Schema(description = "시작 일시", required = true)
     private LocalDateTime startDateTime;
 
-    @ApiModelProperty(value = "종료 일시", required = true)
+    @Schema(description = "종료 일시", required = true)
     private LocalDateTime endDateTime;
 }

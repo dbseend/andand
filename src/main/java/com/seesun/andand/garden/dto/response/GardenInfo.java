@@ -1,6 +1,7 @@
 package com.seesun.andand.garden.dto.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,13 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 public class GardenInfo {
 
-    @ApiModelProperty(value = "정원 레벨", required = true)
+    @Schema(description = "정원 ID", example = "1", required = true)
     private Integer gardenLevel;
 
-    @ApiModelProperty(value = "정원 게시물 개수", required = true)
+    @Schema(description = "정원 ID", example = "1", required = true)
     private Integer gardenNum;
 
-    @ApiModelProperty(value = "메이트 사용자 이름 리스트", required = true)
+    @Schema(description = "정원 ID", example = "1", required = true)
     private List<String> appUserNameList;
 
 }

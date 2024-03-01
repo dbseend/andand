@@ -1,6 +1,7 @@
 package com.seesun.andand.util;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class S3Controller {
     private final UtilService utilService;
 
     @PostMapping("/upload")
-    @ApiOperation(value = "파일 업로드", notes = "파일 업로드 API")
+    @Operation(summary = "파일 업로드", description = "파일 업로드 API")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile multipartFile, @RequestParam("directory") String directoryPath) throws IOException {
 
         String url = utilService.uploadImage(multipartFile, directoryPath);

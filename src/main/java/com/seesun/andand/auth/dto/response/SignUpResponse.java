@@ -2,6 +2,7 @@ package com.seesun.andand.auth.dto.response;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignUpResponse {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private String userId;
 
-    @ApiModelProperty(value = "이름", required = true)
+    @Schema(description = "이름", example = "홍길동", required = true)
     private String name;
 
-    @ApiModelProperty(value = "프로필 이미지", required = true)
+    @Schema(description = "프로필 이미지", required = true)
     private String profileImage;
 
-    @ApiModelProperty(value = "유저 코드", required = true)
+    @Schema(description = "유저 코드", example = "1234", required = true)
     private String userCode;
 
     public SignUpResponse(AppUser appUser) {

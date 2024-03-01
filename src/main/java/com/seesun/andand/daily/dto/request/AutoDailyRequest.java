@@ -1,6 +1,7 @@
 package com.seesun.andand.daily.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AutoDailyRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private Long mateId;
 
-    @ApiModelProperty(value = "내용", required = true)
+    @Schema(description = "내용", example = "안녕하세요", required = true)
     private String tag;
 }

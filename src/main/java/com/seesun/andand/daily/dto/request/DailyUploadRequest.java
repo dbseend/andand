@@ -1,6 +1,7 @@
 package com.seesun.andand.daily.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,12 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class DailyUploadRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private Long appUserId;
 
-    @ApiModelProperty(value = "메이트 ID", required = true)
+    @Schema (description = "동행 ID", example = "1", required = true)
     private Long mateId;
 
-    @ApiModelProperty(value = "내용", required = true)
+    @Schema(description = "내용", example = "안녕하세요", required = true)
     private MultipartFile file;
 }

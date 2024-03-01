@@ -2,6 +2,7 @@ package com.seesun.andand.appUser.dto.request;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,18 +15,18 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class AppUserUpdateRequest {
 
-    @ApiModelProperty(value = "회원 ID", required = true)
+    @Schema(description = "회원 ID", example = "1", required = true)
     private Long appUserId;
 
-    @ApiModelProperty(value = "프로필 이미지", required = true)
+    @Schema(description = "프로필 이미지", required = true)
     private MultipartFile profileImage;
 
-    @ApiModelProperty(value = "이름", required = true)
+    @Schema(description = "이름", example = "홍길동", required = true)
     private String name;
 
-    @ApiModelProperty(value = "나이", required = true)
+    @Schema(description = "나이", example = "20", required = true)
     private Integer age;
 
-    @ApiModelProperty(value = "전화번호", required = true)
+    @Schema(description = "성별", example = "M", required = true)
     private String phoneNumber;
 }
