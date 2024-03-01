@@ -9,6 +9,8 @@ import com.seesun.andand.auth.dto.request.SignInRequest;
 import com.seesun.andand.auth.dto.request.SignUpRequest;
 import com.seesun.andand.auth.dto.response.SignUpResponse;
 import com.seesun.andand.auth.dto.response.SignInResponse;
+import com.seesun.andand.exception.ErrorCode;
+import com.seesun.andand.exception.MyException;
 import com.seesun.andand.mate.dto.response.MateResponse;
 import com.seesun.andand.mate.service.MateService;
 import com.seesun.andand.mate.service.MateSubService;
@@ -73,7 +75,7 @@ public class AuthService {
     @Transactional
     public void signOut(String userId) {
         AppUser appUser = appUserRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_FOUND));
         appUser.updateToken(null);
     }
 }

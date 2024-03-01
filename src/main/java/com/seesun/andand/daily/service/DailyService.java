@@ -14,6 +14,8 @@ import com.seesun.andand.daily.dto.request.DailyUploadRequest;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.dto.response.DailyInfo;
+import com.seesun.andand.exception.ErrorCode;
+import com.seesun.andand.exception.MyException;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.mate.dto.response.MateResponse;
@@ -49,7 +51,7 @@ public class DailyService {
     // 일일 등록 메소드
     public void uploadDaily(Long appUserId, Long mateId, MultipartFile file) throws IOException {
         AppUser appUser = appUserRepository.findById(appUserId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_FOUND));
 
         LocalDate today = LocalDate.now();
         DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);

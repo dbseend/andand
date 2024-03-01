@@ -2,6 +2,8 @@ package com.seesun.andand.auth.service;
 
 import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUser.domain.AppUserRepository;
+import com.seesun.andand.exception.ErrorCode;
+import com.seesun.andand.exception.MyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,13 +21,13 @@ public class AuthSubService {
     public void checkIdAvailability(String userId) {
         Optional<AppUser> appUser = appUserRepository.findByUserId(userId);
         if (appUser.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+            throw new MyException(ErrorCode.USER_ALREADY_EXIST);
         }
     }
 
     // 아이디로 사용자 조회 메소드
     public AppUser findUserByUserId(String userId) {
         return appUserRepository.findByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_FOUND));
     }
 }

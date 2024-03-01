@@ -7,6 +7,8 @@ import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.appUserMate.domain.AppUserMateRepository;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
+import com.seesun.andand.exception.ErrorCode;
+import com.seesun.andand.exception.MyException;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +46,7 @@ public class MateSubService {
     // 코드로 메이트 조회 메소드
     public Mate findMateByCode(String userCode) {
         return mateRepository.findByCode(userCode)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
     }
 
     // 연속 일수 갱신 메소드

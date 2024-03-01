@@ -6,6 +6,8 @@ import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.appUserMate.domain.AppUserMateRepository;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
+import com.seesun.andand.exception.ErrorCode;
+import com.seesun.andand.exception.MyException;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.mate.dto.request.ConnectMateRequest;
@@ -65,10 +67,10 @@ public class MateService {
                 .map(AppUserMate::getMate)
                 .filter(mate1 -> mate1.getAppUserMateList().size() == 2)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("메이트가 존재하지 않습니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
 
         AppUserMate appUserMate = appUserMateRepository.findByAppUserAndMate(appUser, mate)
-                .orElseThrow(() -> new IllegalArgumentException("메이트가 존재하지 않습니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
 
         appUserMateRepository.deleteById(appUserMate.getId());
     }
@@ -83,7 +85,7 @@ public class MateService {
                 .map(AppUserMate::getMate)
                 .filter(appUserMateMate -> appUserMateMate.getAppUserMateList().size() == 2)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("메이트가 존재하지 않습니다."));
+                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
 
         return new MateResponse(mate);
     }
