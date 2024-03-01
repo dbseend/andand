@@ -57,16 +57,16 @@ public class AuthService {
         }
 
         AppUserSummaryResponse appUserSummaryResponse = new AppUserSummaryResponse(appUser);
-
         PartnerResponse partnerResponse = appUserSubService.findPartnerInfoByUserId(appUser.getUserId()); // 파트너 정보 조회
-
         MateResponse mateResponse = mateService.findMate(appUser.getUserId()); // 메이트 정보 조회
 
         String token = tokenProvider.create(appUser.getUserId()); // 토큰 생성
         appUser.updateToken(token);
         appUserRepository.save(appUser);
 
-        return new SignInResponse(appUserSummaryResponse, partnerResponse, mateResponse, token);
+        String todayTag = "웃음";
+
+        return new SignInResponse(appUserSummaryResponse, partnerResponse, mateResponse, token, todayTag);
     }
 
     // 로그아웃 메소드

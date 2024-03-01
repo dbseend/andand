@@ -28,9 +28,4 @@ public class AuthSubService {
         return appUserRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
     }
-
-    public AppUser findUserById(Long userId) {
-        return appUserRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디입니다."));
-    }
 }

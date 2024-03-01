@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface DailyRepository extends JpaRepository<Daily, Long> {
 
     List<Daily> findByCreateDateBetween(LocalDateTime startDateTime, LocalDateTime endDateTime);
-
-//    Optional<Daily> findByMateAndCreateDateBetween(Mate mate, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }

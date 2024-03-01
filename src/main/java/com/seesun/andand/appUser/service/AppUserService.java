@@ -38,7 +38,7 @@ public class AppUserService {
     // 회원정보 수정 메소드
     public AppUserResponse updateAppUser(AppUserUpdateRequest appUserUpdateRequest) throws Exception {
 
-        AppUser appUser = authSubService.findUserById(appUserUpdateRequest.getAppUserId());
+        AppUser appUser = authSubService.findUserByUserId(appUserUpdateRequest.getUserId());
 
         String newProfileImage = utilService.uploadImage(appUserUpdateRequest.getProfileImage(), PROFILE_DIRECTORY);
 

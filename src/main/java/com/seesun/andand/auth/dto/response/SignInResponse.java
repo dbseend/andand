@@ -25,4 +25,7 @@ public class SignInResponse {
 
     @Schema(description = "토큰", required = true)
     private String token;
+
+    @Schema(description = "오늘의 태그", required = true)
+    private String todayTag;
 }

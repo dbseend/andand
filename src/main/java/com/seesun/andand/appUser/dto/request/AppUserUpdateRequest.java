@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AppUserUpdateRequest {
 
     @Schema(description = "회원 ID", example = "1", required = true)
-    private Long appUserId;
+    private String userId;
 
     @Schema(description = "프로필 이미지", required = true)
     private MultipartFile profileImage;
