@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v0/garden")
 public class GardenController {
 
-        private final GardenService gardenService;
+    private final GardenService gardenService;
 
-        @GetMapping("/{mateId}")
-        @ApiOperation(value = "정원 정보 조회", notes = "정원 정보 조회 API")
-        public ResponseEntity<GardenInfo> getGardenInfo(@PathVariable Long mateId) {
-            return ResponseEntity.ok(gardenService.getGardenInfo(mateId));
-        }
+    @GetMapping("/{mateId}")
+    @ApiOperation(value = "정원 정보 조회", notes = "정원 정보 조회 API")
+    public ResponseEntity<GardenInfo> getGardenInfo(@PathVariable Long mateId) {
+        return ResponseEntity.ok(gardenService.getGardenInfo(mateId));
+    }
 
 }
