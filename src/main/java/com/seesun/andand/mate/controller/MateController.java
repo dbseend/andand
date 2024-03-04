@@ -26,8 +26,8 @@ public class MateController {
     // 메이트 연결 해제 API
     @DeleteMapping("")
     @Operation(summary = "메이트 연결 해제", description = "메이트 연결 해제 API")
-    public ResponseEntity<Void> disconnectMate(@RequestParam String userId) {
-        mateService.disconnectMate(userId);
+    public ResponseEntity<Void> disconnectMate(@RequestParam Long appUserId, @RequestParam Long mateId) {
+        mateService.disconnectMate(appUserId, mateId);
         return ResponseEntity.ok().build();
     }
 }
