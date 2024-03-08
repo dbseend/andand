@@ -11,10 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class DailyUploadRequest {
 
     @Schema(description = "회원 ID", example = "1", required = true)
-    private Long appUserId;
+    private String appUserId;
 
     @Schema (description = "동행 ID", example = "1", required = true)
-    private Long mateId;
+    private String mateId;
 
     @Schema(description = "내용", example = "안녕하세요", required = true)
     private MultipartFile file;
