@@ -12,21 +12,15 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailyResponse {
-
+public class DailyCheckResponse {
     @Schema(description = "데일리 ID", example = "1", required = true)
     private Long id;
 
-    @Schema(description = "메이트 정보", required = true)
-    private Mate mate;
+    @Schema(description = "메이트 코드정보", required = true)
+    private String code;
 
     @Schema(description = "데일리 정보", required = true)
     private String tag;
 
-    @Schema(description = "시작 일시", required = true)
-    private Boolean isBothUploaded;
-
-    @Schema(description = "종료 일시", required = true)
-    private List<AppUserDailyResponse> appUserDailyList;
-
 }
+

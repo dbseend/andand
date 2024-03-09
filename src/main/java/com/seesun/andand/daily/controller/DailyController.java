@@ -3,7 +3,6 @@ package com.seesun.andand.daily.controller;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.service.DailyService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class DailyController {
 
     @PostMapping("/upload")
     @Operation(summary = "일상 게시물 업로드", description = "일상 게시물 업로드 API")
-    public ResponseEntity<Void> uploadDaily(@RequestParam Long appUserId, @RequestParam Long mateId, @RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<Void> uploadDaily(@RequestParam String appUserId, @RequestParam Long mateId, @RequestParam MultipartFile file) throws IOException {
 
         dailyService.uploadDaily(appUserId, mateId, file);
 
@@ -31,7 +30,7 @@ public class DailyController {
 
     @PostMapping("/reUpload")
     @Operation(summary = "일상 게시물 재업로드", description = "일상 게시물 재업로드 API")
-    public ResponseEntity<Void> reUploadDaily(@RequestParam Long appUserId, @RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<Void> reUploadDaily(@RequestParam String appUserId, @RequestParam MultipartFile file) throws IOException {
 
         dailyService.reUploadDaily(appUserId, file);
 
@@ -51,9 +50,9 @@ public class DailyController {
     @Operation(summary = "특정 일의 일상 게시물 조회", description = "특정 일의 일상 게시물 조회 API")
     public ResponseEntity<DailyResponse> getSpecificDaily(@RequestParam Long mateId, @RequestParam LocalDate date) {
 
-        DailyResponse dailyResponse = dailyService.getSpecificDaily(mateId, date);
+        DailyResponse dailyCheckResponse = dailyService.getSpecificDaily(mateId, date);
 
-        return ResponseEntity.ok().body(dailyResponse);
+        return ResponseEntity.ok().body(dailyCheckResponse);
     }
 
 
