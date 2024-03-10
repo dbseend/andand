@@ -1,8 +1,10 @@
 package com.seesun.andand.garden.dto.response;
 
 import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.garden.domain.Garden;
 import com.seesun.andand.mate.domain.Mate;
+import com.seesun.andand.mate.dto.response.MateResponse;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

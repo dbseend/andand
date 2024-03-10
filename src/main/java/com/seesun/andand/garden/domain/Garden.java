@@ -53,5 +53,4 @@ public class Garden extends BaseEntity {
         this.image = image.getOriginalFilename();
     }
 
-
 }

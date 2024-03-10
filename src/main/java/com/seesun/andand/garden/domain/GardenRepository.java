@@ -25,5 +25,6 @@ public interface GardenRepository extends JpaRepository<Garden, Long> {
     );
 
     Optional<Garden> findTopByCreateDateBetweenOrderByCreateDateDesc(LocalDateTime todayStart, LocalDateTime todayEnd);
-    Optional<Garden> findByMateAndCreateDateBetween(Mate mate, LocalDateTime startDateTime, LocalDateTime endDateTime);
+
+    List<Garden> findByAppUser(AppUser appUser);
 }
