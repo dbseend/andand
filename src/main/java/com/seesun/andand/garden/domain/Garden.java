@@ -9,7 +9,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -43,4 +47,11 @@ public class Garden extends BaseEntity {
         this.appUser = appUser;
         this.mate = mate;
     }
+
+    public void update(String content, MultipartFile image) throws IOException {
+        this.content = content;
+        this.image = image.getOriginalFilename();
+    }
+
+
 }

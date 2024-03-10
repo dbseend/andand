@@ -1,6 +1,7 @@
 package com.seesun.andand.garden.dto.response;
 
 import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.garden.domain.Garden;
 import com.seesun.andand.mate.domain.Mate;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,4 +33,14 @@ public class GardenResponse {
 
     @Schema(description = "정원 게시물 작성 일시", required = true)
     private LocalDateTime createdAt;
+
+    public GardenResponse(Garden garden) {
+        this.id = garden.getId();
+        this.appUser = garden.getAppUser();
+        this.mate = garden.getMate();
+        this.picture = garden.getImage();
+        this.content = garden.getContent();
+        this.createdAt = garden.getCreateDate();
+    }
+
 }
