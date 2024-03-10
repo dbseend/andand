@@ -9,8 +9,6 @@ import com.seesun.andand.garden.dto.response.GardenAllResponse;
 import com.seesun.andand.garden.dto.response.GardenResponse;
 import com.seesun.andand.util.UtilService;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
-import com.seesun.andand.exception.ErrorCode;
-import com.seesun.andand.exception.MyException;
 import com.seesun.andand.garden.domain.GardenRepository;
 import com.seesun.andand.garden.dto.response.GardenInfo;
 import com.seesun.andand.mate.domain.Mate;
@@ -24,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -36,8 +35,8 @@ public class GardenService {
     private final UtilService utilService;
 
     public GardenInfo getGardenInfo(Long mateId) {
-        Mate mate = mateRepository.findById(mateId)
-                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
+        Mate mate = mateRepository.findById(mateId).orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
+
         Integer gardenLevel = mate.getGardenLevel();
 
         Integer gardenNum = mate.getGardenNum();
@@ -158,4 +157,5 @@ public class GardenService {
         return latestGarden.map(GardenResponse::new)
                 .orElse(new GardenResponse()); // 없으면 빈 응답 또는 예외 처리 등을 수행할 수 있습니다.
     }
+
 }

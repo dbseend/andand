@@ -78,6 +78,7 @@ public class Mate extends BaseEntity {
             this.gardenLevel++;
         } else if (gardenNum >= 90) {
             this.gardenLevel++;
+
         }
     }
 }

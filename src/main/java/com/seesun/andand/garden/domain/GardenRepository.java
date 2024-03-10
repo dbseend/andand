@@ -1,6 +1,7 @@
 package com.seesun.andand.garden.domain;
 
 import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.mate.domain.Mate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -24,4 +25,5 @@ public interface GardenRepository extends JpaRepository<Garden, Long> {
     );
 
     Optional<Garden> findTopByCreateDateBetweenOrderByCreateDateDesc(LocalDateTime todayStart, LocalDateTime todayEnd);
+    Optional<Garden> findByMateAndCreateDateBetween(Mate mate, LocalDateTime startDateTime, LocalDateTime endDateTime);
 }
