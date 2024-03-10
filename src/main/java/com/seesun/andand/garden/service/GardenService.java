@@ -52,7 +52,7 @@ public class GardenService {
     //garden 게시물 업로드
     public GardenResponse uploadGarden(GardenUploadRequest gardenUploadRequest) throws IOException {
 
-        AppUser appUser = appUserRepository.findById(gardenUploadRequest.getAppUserId())
+        AppUser appUser = appUserRepository.findById(String.valueOf(gardenUploadRequest.getAppUserId()))
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
 
         Mate mate = mateRepository.findById(gardenUploadRequest.getMateId())
