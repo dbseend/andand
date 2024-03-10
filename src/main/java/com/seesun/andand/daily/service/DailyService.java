@@ -11,6 +11,7 @@ import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
 import com.seesun.andand.daily.dto.request.DailyUploadRequest;
+import com.seesun.andand.daily.dto.response.DailyCheckResponse;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.dto.response.DailyInfo;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+//enetity -> repo -> service -> controller ->api호출
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -49,7 +50,7 @@ public class DailyService {
 
 
     // 일일 등록 메소드
-    public void uploadDaily(Long appUserId, Long mateId, MultipartFile file) throws IOException {
+    public void uploadDaily(String appUserId, Long mateId, MultipartFile file) throws IOException {
         AppUser appUser = appUserRepository.findById(appUserId)
                 .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_FOUND));
 
@@ -84,7 +85,7 @@ public class DailyService {
     }
 
 
-    public void reUploadDaily(Long appUserId, MultipartFile file) throws IOException {
+    public void reUploadDaily(String appUserId, MultipartFile file) throws IOException {
 
         LocalDate today = LocalDate.now();
         LocalDateTime startDateTime = today.atStartOfDay();
@@ -108,6 +109,11 @@ public class DailyService {
 
     // 특정 날짜 데일리 조회 메소드
     public DailyResponse getSpecificDaily(Long mateId, LocalDate targetDate) {
+
+        Mate mate = mateRepository.findById(mateId)
+                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
+
+
         return getDailyResponse(mateId, targetDate);
     }
 

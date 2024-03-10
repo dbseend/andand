@@ -59,20 +59,8 @@ public class MateService {
 
     // 메이트 삭제 메소드
     @Transactional
-    public void disconnectMate(String userId) {
-
-        AppUser appUser = appUserSubService.findAppUserById(userId);
-
-        Mate mate = appUser.getAppUserMateList().stream()
-                .map(AppUserMate::getMate)
-                .filter(mate1 -> mate1.getAppUserMateList().size() == 2)
-                .findFirst()
-                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
-
-        AppUserMate appUserMate = appUserMateRepository.findByAppUserAndMate(appUser, mate)
-                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
-
-        appUserMateRepository.deleteById(appUserMate.getId());
+    public void disconnectMate(Long appUserId, Long mateId) {
+        appUserMateRepository.deleteByAppUserIdAndMateId(appUserId, mateId);
     }
 
     // 메이트 조회 메소드
