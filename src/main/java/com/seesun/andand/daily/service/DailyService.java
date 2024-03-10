@@ -10,8 +10,6 @@ import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.daily.domain.Daily;
 import com.seesun.andand.daily.domain.DailyRepository;
-import com.seesun.andand.daily.dto.request.DailyUploadRequest;
-import com.seesun.andand.daily.dto.response.DailyCheckResponse;
 import com.seesun.andand.daily.dto.response.DailyInfoResponse;
 import com.seesun.andand.daily.dto.response.DailyResponse;
 import com.seesun.andand.daily.dto.response.DailyInfo;
@@ -19,21 +17,18 @@ import com.seesun.andand.exception.ErrorCode;
 import com.seesun.andand.exception.MyException;
 import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
-import com.seesun.andand.mate.dto.response.MateResponse;
 import com.seesun.andand.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 //enetity -> repo -> service -> controller ->api호출
 @Service
 @RequiredArgsConstructor
@@ -110,14 +105,11 @@ public class DailyService {
     // 특정 날짜 데일리 조회 메소드
     public DailyResponse getSpecificDaily(Long mateId, LocalDate targetDate) {
 
-        Mate mate = mateRepository.findById(mateId)
-                .orElseThrow(() -> new MyException(ErrorCode.MATE_NOT_FOUND));
-
 
         return getDailyResponse(mateId, targetDate);
     }
 
-    // 데일리 게시물 조회 메소드
+    // 데일리 게시물 조회 메소드 - 하루
     private DailyResponse getDailyResponse(Long mateId, LocalDate today) {
         DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);
         Daily daily = dailyInfo.getDaily();
@@ -128,13 +120,11 @@ public class DailyService {
 
         return new DailyResponse(
                 daily.getId()
-                , daily.getMate()
                 , daily.getTag()
                 , daily.getIsBothUploaded()
                 , appUserDailyResponseList
         );
     }
-
 
     //사용자 조회
     public DailyInfoResponse getDailyInfo(String userId) {
