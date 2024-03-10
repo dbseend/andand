@@ -65,16 +65,20 @@ public class Mate extends BaseEntity {
         this.gardenNum++;
     }
 
-    //gardennum이 일정 숫자를 초과하면 레벨 증가 함수
-    public void addGardenLevel() {
-        int gardenLevel = 1;
+    //gardennum을 설정하는 함수
+    public void setGardenNum(int gardenNum) {
+        this.gardenNum = gardenNum;
+    }
 
+    //gardennum이 일정 숫자를 초과하면 레벨 증가 함수
+    public void setGardenLevel() {
         if (gardenNum >= 30) {
-            gardenLevel++;
+            this.gardenLevel++;
         } else if (gardenNum >= 65) {
-            gardenLevel++;
+            this.gardenLevel++;
         } else if (gardenNum >= 90) {
-            gardenLevel++;
+            this.gardenLevel++;
+
         }
     }
 }

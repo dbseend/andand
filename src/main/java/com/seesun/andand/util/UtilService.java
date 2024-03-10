@@ -88,4 +88,8 @@ public class UtilService {
 
         return new DailyInfo(mate, daily, startDateTime, endDateTime);
     }
+
+    public boolean isSameDay(LocalDateTime createDate) {
+        return LocalDate.now().isEqual(createDate.toLocalDate());
+    }
 }

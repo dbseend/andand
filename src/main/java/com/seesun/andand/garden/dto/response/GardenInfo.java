@@ -20,6 +20,7 @@ public class GardenInfo {
     private Integer gardenNum;
 
     @Schema(description = "정원 ID", example = "1", required = true)
+
     private List<String> appUserNameList;
 
 }
