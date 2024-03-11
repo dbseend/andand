@@ -128,7 +128,7 @@ public class GardenService {
         gardenRepository.deleteById(gardenId);
     }
 
-    // 수정된 isUploadedToday 메서드
+    //isUploadedToday 메서드
     public boolean isUploadedToday(Garden garden) {
         if (garden == null || garden.getCreateDate() == null) {
             return false;
