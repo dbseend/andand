@@ -22,10 +22,10 @@ public class GardenResponse {
     private Long id;
 
     @Schema(description = "정원 게시물 작성자 정보", required = true)
-    private AppUser appUser;
+    private Long appUserId;
 
     @Schema(description = "정원 게시물 메이트 정보", required = true)
-    private Mate mate;
+    private Long mateId;
 
     @Schema(description = "정원 게시물 사진", required = true)
     private String picture;
@@ -38,8 +38,8 @@ public class GardenResponse {
 
     public GardenResponse(Garden garden) {
         this.id = garden.getId();
-        this.appUser = garden.getAppUser();
-        this.mate = garden.getMate();
+        this.appUserId = garden.getAppUser().getId();
+        this.mateId = garden.getMate().getId();
         this.picture = garden.getImage();
         this.content = garden.getContent();
         this.createdAt = garden.getCreateDate();
