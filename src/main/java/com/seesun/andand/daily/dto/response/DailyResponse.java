@@ -17,16 +17,13 @@ public class DailyResponse {
     @Schema(description = "데일리 ID", example = "1", required = true)
     private Long id;
 
-    @Schema(description = "메이트 정보", required = true)
-    private Mate mate;
-
     @Schema(description = "데일리 정보", required = true)
     private String tag;
 
     @Schema(description = "시작 일시", required = true)
     private Boolean isBothUploaded;
 
-    @Schema(description = "종료 일시", required = true)
+    @Schema(description = "업로드한 게시물", required = true)
     private List<AppUserDailyResponse> appUserDailyList;
 
 }
