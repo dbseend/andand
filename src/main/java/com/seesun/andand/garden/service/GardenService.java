@@ -8,6 +8,14 @@ import com.seesun.andand.garden.dto.request.GardenUploadRequest;
 import com.seesun.andand.garden.dto.response.GardenAllResponse;
 import com.seesun.andand.garden.dto.response.GardenResponse;
 import com.seesun.andand.util.UtilService;
+import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.appUser.domain.AppUserRepository;
+import com.seesun.andand.garden.domain.Garden;
+import com.seesun.andand.garden.dto.request.GardenUpdateRequest;
+import com.seesun.andand.garden.dto.request.GardenUploadRequest;
+import com.seesun.andand.garden.dto.response.GardenAllResponse;
+import com.seesun.andand.garden.dto.response.GardenResponse;
+import com.seesun.andand.util.UtilService;
 import com.seesun.andand.appUserMate.domain.AppUserMate;
 import com.seesun.andand.garden.domain.GardenRepository;
 import com.seesun.andand.garden.dto.response.GardenInfo;
@@ -57,6 +65,14 @@ public class GardenService {
         Mate mate = mateRepository.findById(gardenUploadRequest.getMateId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 메이트가 없습니다."));
 
+        //만약 appUser가 이미 오늘 안에 garden 게시물을 올린 것이 있다면 예외 처리
+        List<Garden> gardenList = gardenRepository.findByAppUser(appUser);
+        for (Garden garden : gardenList) {
+            if (isUploadedToday(garden)) {
+                throw new IllegalArgumentException("오늘 이미 게시물을 올렸습니다.");
+            }
+        }
+
         String picture = utilService.uploadImage(gardenUploadRequest.getPicture(), GARDEN);
 
         Garden garden = Garden.builder()
@@ -65,19 +81,6 @@ public class GardenService {
                 .image(picture)
                 .content(gardenUploadRequest.getContent())
                 .build();
-
-        //만약 appuser가 이미 오늘의 garden 게시물을 올렸으면 중복 올리기 방지 코드
-        Optional<Garden> existingGarden = gardenRepository.findByAppUserAndCreateDateBetween(
-                appUser,
-                appUser.getCreateDate().withHour(0).withMinute(0).withSecond(0),
-                appUser.getCreateDate().withHour(23).withMinute(59).withSecond(59)
-        );
-
-        existingGarden.ifPresent(existing -> {
-            if (isUploadedToday(existing)) {
-                throw new IllegalArgumentException("오늘 이미 게시물을 업로드 했습니다.");
-            }
-        });
 
         gardenRepository.save(garden);
 
@@ -133,16 +136,16 @@ public class GardenService {
         gardenRepository.deleteById(gardenId);
     }
 
-    // 수정된 isUploadedToday 메서드
+    //isUploadedToday 메서드
     public boolean isUploadedToday(Garden garden) {
         if (garden == null || garden.getCreateDate() == null) {
             return false;
         }
 
-        LocalDateTime todayStart = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
-        LocalDateTime todayEnd = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+        LocalDateTime todayStart = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime todayEnd = LocalDateTime.now().toLocalDate().atTime(23, 59, 59, 999999999);
 
-        return garden.getCreateDate().isAfter(todayStart) && garden.getCreateDate().isBefore(todayEnd);
+        return !garden.getCreateDate().isBefore(todayStart) && !garden.getCreateDate().isAfter(todayEnd);
     }
 
     // 오늘 하루 안에 올렸던 게시물 중 가장 최근 게시물 조회

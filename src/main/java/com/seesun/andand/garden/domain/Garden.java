@@ -3,14 +3,20 @@ package com.seesun.andand.garden.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seesun.andand.appUser.domain.AppUser;
+import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.configuration.BaseEntity;
 import com.seesun.andand.mate.domain.Mate;
+import com.seesun.andand.mate.dto.response.MateResponse;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -52,6 +58,5 @@ public class Garden extends BaseEntity {
         this.content = content;
         this.image = image.getOriginalFilename();
     }
-
 
 }
