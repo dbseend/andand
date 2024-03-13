@@ -72,10 +72,18 @@ public class AppUser extends BaseEntity {
 
     // 회원정보 수정 메소드
     public void updateInfo(String name, Integer age, String phoneNumber, String newProfileImage) {
-        this.name = name;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
-        this.profileImage = newProfileImage;
+        if (name != null && !name.isEmpty()) {
+            this.name = name;
+        }
+        if (age != null && age > 0) {
+            this.age = age;
+        }
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            this.phoneNumber = phoneNumber;
+        }
+        if (newProfileImage != null && !newProfileImage.isEmpty()) {
+            this.profileImage = newProfileImage;
+        }
     }
 
     // 포인트 추가 메소드

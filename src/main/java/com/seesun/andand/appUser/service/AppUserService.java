@@ -40,11 +40,10 @@ public class AppUserService {
 
         AppUser appUser = authSubService.findUserByUserId(appUserUpdateRequest.getUserId());
 
-        String newProfileImage = utilService.uploadImage(appUserUpdateRequest.getProfileImage(), PROFILE_DIRECTORY);
-
+        String newProfileImage = utilService.uploadProfileImage(appUserUpdateRequest.getProfileImage(), PROFILE_DIRECTORY, appUserUpdateRequest.getUserId());
+        log.info("new profile: " + newProfileImage);
         appUser.updateInfo(appUserUpdateRequest.getName(), appUserUpdateRequest.getAge(), appUserUpdateRequest.getPhoneNumber(), newProfileImage);
         appUserRepository.save(appUser);
-        log.info("new id: " + appUser.getUserId() + " new name: " + appUser.getName() + " new age: " + appUser.getAge() + " new phone: " + appUser.getPhoneNumber() + " new profile: " + appUser.getProfileImage());
 
         return new AppUserResponse(appUser);
     }
