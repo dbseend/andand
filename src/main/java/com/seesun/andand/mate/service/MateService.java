@@ -28,11 +28,9 @@ import java.util.Optional;
 @Slf4j
 public class MateService {
 
-    private final MateRepository mateRepository;
     private final AppUserSubService appUserSubService;
     private final MateSubService mateSubService;
     private final AppUserMateRepository appUserMateRepository;
-    private final DailyRepository dailyRepository;
 
     // 데일리 자동 생성 및 연속 날짜 갱신 메소드
     @Scheduled(cron = "0 0 0 * * ?") // 매일 자정에 실행

@@ -16,7 +16,8 @@ public enum ErrorCode {
     MATE_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 동료가 없습니다"),
     MATE_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록된 동료입니다"),
     DAILY_NOT_FOUND(HttpStatus.BAD_REQUEST, "해당하는 일지가 없습니다"),
-    PARTNER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록된 파트너가 있습니다");
+    PARTNER_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "이미 등록된 파트너가 있습니다"),
+    ALREADY_CONNECTED(HttpStatus.BAD_REQUEST, "이미 연결된 동료이거나 본인의 계정입니다");
 
     private HttpStatus status;
     private String message;

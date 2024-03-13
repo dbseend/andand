@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +47,7 @@ public class GardenController {
     //garden 게시물 업로드
     @PostMapping("")
     public ResponseEntity<GardenResponse> uploadGarden(
-            @RequestParam("appUserId") Long appUserId,
+            @RequestParam("appUserId") String appUserId,
             @RequestParam("mateId") Long mateId,
             @RequestParam("picture") MultipartFile picture,
             @RequestParam("content") String content) throws IOException {

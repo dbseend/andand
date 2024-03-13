@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.io.IOException;
 import java.util.List;
@@ -73,7 +74,12 @@ public class GardenService {
             }
         }
 
-        String picture = utilService.uploadImage(gardenUploadRequest.getPicture(), GARDEN);
+        String date = LocalDate.now().toString();
+        String picture = utilService.uploadImage(
+                gardenUploadRequest.getPicture(),
+                GARDEN,
+                gardenUploadRequest.getAppUserId(),
+                date);
 
         Garden garden = Garden.builder()
                 .appUser(appUser)

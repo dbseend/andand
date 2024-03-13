@@ -4,6 +4,7 @@ import com.seesun.andand.appUser.domain.AppUser;
 import com.seesun.andand.appUser.domain.AppUserRepository;
 import com.seesun.andand.appUser.dto.response.AppUserResponse;
 import com.seesun.andand.appUser.service.AppUserService;
+import com.seesun.andand.appUser.service.AppUserSubService;
 import com.seesun.andand.appUserDaily.domain.AppUserDaily;
 import com.seesun.andand.appUserDaily.domain.AppUserDailyRepository;
 import com.seesun.andand.appUserDaily.dto.AppUserDailyResponse;
@@ -42,19 +43,21 @@ public class DailyService {
     private final AppUserDailyRepository appUserDailyRepository;
     private final UtilService utilService;
     private final AppUserService appUserService;
+    private final AppUserSubService appUserSubService;
 
 
     // 일일 등록 메소드
     public void uploadDaily(String appUserId, Long mateId, MultipartFile file) throws IOException {
-        AppUser appUser = appUserRepository.findById(appUserId)
-                .orElseThrow(() -> new MyException(ErrorCode.USER_NOT_FOUND));
 
         LocalDate today = LocalDate.now();
+        String date = today.toString();
+
+        AppUser appUser = appUserSubService.findAppUserById(appUserId);
         DailyInfo dailyInfo = utilService.getInfoForDaily(mateId, today);
         Daily daily = dailyInfo.getDaily();
         Mate mate = dailyInfo.getMate();
 
-        String picture = utilService.uploadImage(file, DAILY);
+        String picture = utilService.uploadImage(file, DAILY, appUserId, date);
 
         // Daily 엔티티를 먼저 저장합니다.
         dailyRepository.save(daily);
@@ -83,13 +86,13 @@ public class DailyService {
     public void reUploadDaily(String appUserId, MultipartFile file) throws IOException {
 
         LocalDate today = LocalDate.now();
+        String date = today.toString();
+
         LocalDateTime startDateTime = today.atStartOfDay();
         LocalDateTime endDateTime = today.atTime(23, 59, 59);
         AppUserDaily appUserDaily = new AppUserDaily();
-//        AppUserDaily appUserDaily = appUserDailyRepository.findByAppUserIdAndCreateDateTimeBetween(appUserId, startDateTime, endDateTime)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 데일리가 없습니다."));
 
-        String picture = utilService.uploadImage(file, DAILY);
+        String picture = utilService.uploadImage(file, DAILY, appUserId, date);
         appUserDaily.updatePicture(picture);
         appUserDailyRepository.save(appUserDaily);
     }

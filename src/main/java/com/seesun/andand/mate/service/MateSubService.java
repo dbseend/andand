@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +40,13 @@ public class MateSubService {
 
     // 메이트 연결 메소드
     public void connectMate(AppUser appUser, Mate mate) {
-        AppUserMate appUserMate = new AppUserMate(appUser, mate);
-        appUserMateRepository.save(appUserMate);
+
+        Optional<AppUserMate> check = appUserMateRepository.findByAppUserAndMate(appUser, mate);
+        if (check.isPresent()) {
+            throw new MyException(ErrorCode.ALREADY_CONNECTED);
+        }
+        AppUserMate newAppUserMate = new AppUserMate(appUser, mate);
+        appUserMateRepository.save(newAppUserMate);
     }
 
     // 코드로 메이트 조회 메소드

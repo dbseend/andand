@@ -19,7 +19,8 @@ public class DailyController {
 
     private final DailyService dailyService;
 
-    @PostMapping("/upload")
+    // 일상 게시물 업로드 API
+    @PostMapping("")
     @Operation(summary = "일상 게시물 업로드", description = "일상 게시물 업로드 API")
     public ResponseEntity<Void> uploadDaily(@RequestParam String appUserId, @RequestParam Long mateId, @RequestParam MultipartFile file) throws IOException {
 
@@ -28,6 +29,7 @@ public class DailyController {
         return ResponseEntity.ok().build();
     }
 
+    // 일상 게시물 재업로드 API
     @PostMapping("/reUpload")
     @Operation(summary = "일상 게시물 재업로드", description = "일상 게시물 재업로드 API")
     public ResponseEntity<Void> reUploadDaily(@RequestParam String appUserId, @RequestParam MultipartFile file) throws IOException {
@@ -37,6 +39,7 @@ public class DailyController {
         return ResponseEntity.ok().build();
     }
 
+    // 일상 게시물 삭제 API
     @GetMapping("/today")
     @Operation(summary = "오늘의 일상 게시물 조회", description = "오늘의 일상 게시물 조회 API")
     public ResponseEntity<DailyResponse> getTodayDaily(@RequestParam Long mateId) {
@@ -46,6 +49,7 @@ public class DailyController {
         return ResponseEntity.ok().body(dailyResponse);
     }
 
+    // 특정 일의 일상 게시물 조회 API
     @GetMapping("")
     @Operation(summary = "특정 일의 일상 게시물 조회", description = "특정 일의 일상 게시물 조회 API")
     public ResponseEntity<DailyResponse> getSpecificDaily(@RequestParam Long mateId, @RequestParam LocalDate date) {
@@ -55,7 +59,7 @@ public class DailyController {
         return ResponseEntity.ok().body(dailyCheckResponse);
     }
 
-
+    // 일상 정보 조회 API
     @GetMapping("/info")
     @Operation(summary = "일상 정보 조회", description = "일상 정보 조회 API")
     public ResponseEntity<DailyInfoResponse> getDailyInfo(@RequestParam String userId) {

@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GardenUploadRequest {
-    private Long appUserId;
+
+    private String appUserId;
 
     private Long mateId;
 

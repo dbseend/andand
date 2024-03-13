@@ -29,10 +29,10 @@ public class UtilService {
     private String bucket;
 
     // 이미지 업로드
-    public String uploadImage(MultipartFile multipartFile, String directoryPath) throws IOException {
+    public String uploadImage(MultipartFile multipartFile, String directoryPath, String userId, String date) throws IOException {
 
         String originalFilename = multipartFile.getOriginalFilename();
-        String fullFilePath = directoryPath + "/" + originalFilename;
+        String fullFilePath = directoryPath + "/" + userId + "_" + date + "_" + originalFilename;
 
         return uploadToS3(multipartFile, fullFilePath);
     }
