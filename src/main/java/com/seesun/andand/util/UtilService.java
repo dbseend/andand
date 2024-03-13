@@ -31,18 +31,29 @@ public class UtilService {
     // 이미지 업로드
     public String uploadImage(MultipartFile multipartFile, String directoryPath) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
-        log.info("originalFilename: " + originalFilename);
-
         String fullFilePath = directoryPath + "/" + originalFilename;
+        return uploadToS3(multipartFile, fullFilePath);
+    }
 
+    // 프로필 이미지 업로드
+    public String uploadProfileImage(MultipartFile multipartFile, String directoryPath, String userId) throws IOException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        log.info("originalFilename: " + originalFilename);
+        String fileName = userId + "_profile_" + originalFilename;
+        String fullFilePath = directoryPath + "/" + fileName;
+        return uploadToS3(multipartFile, fullFilePath);
+    }
+
+    // S3에 업로드
+    private String uploadToS3(MultipartFile multipartFile, String fullFilePath) throws IOException {
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
-
         amazonS3.putObject(bucket, fullFilePath, multipartFile.getInputStream(), metadata);
         log.info(amazonS3.getUrl(bucket, fullFilePath).toString());
         return amazonS3.getUrl(bucket, fullFilePath).toString();
     }
+
 
     // 랜덤 코드 생성
     public String generateRandomCode() {

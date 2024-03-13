@@ -12,6 +12,7 @@ import com.seesun.andand.mate.domain.Mate;
 import com.seesun.andand.mate.domain.MateRepository;
 import com.seesun.andand.mate.service.MateSubService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AppUserSubService {
 
     private final AppUserRepository appUserRepository;
@@ -54,11 +56,27 @@ public class AppUserSubService {
                 .filter(appUserMateMate -> appUserMateMate.getAppUserMateList().size() == 2)
                 .findFirst();
 
-        AppUser partner = mate.get().getAppUserMateList().stream()
-                .filter(appUserMate -> !appUserMate.getAppUser().getUserId().equals(userId))
-                .findFirst()
-                .get()
-                .getAppUser();
+        if (mate.isEmpty()) {
+            return null;
+        }
+
+        AppUser partner = new AppUser();
+        List<AppUserMate> partnerAppMateList = mate.get().getAppUserMateList();
+        for (AppUserMate appUserMate : partnerAppMateList) {
+            if (!appUserMate.getAppUser().getUserId().equals(userId)) {
+                partner = appUserMate.getAppUser();
+
+                return new PartnerResponse(partner);
+            }
+        }
+
+//        if (mate.isPresent()) {
+//            partner = mate.get().getAppUserMateList().stream()
+//                    .filter(appUserMate -> !appUserMate.getAppUser().getUserId().equals(userId))
+//                    .findFirst()
+//                    .get()
+//                    .getAppUser();
+//        }
 
         return new PartnerResponse(partner);
     }
